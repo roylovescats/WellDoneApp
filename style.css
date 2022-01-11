@@ -1,4 +1,4 @@
-.container-md-12{
+.container{
     padding: 50px;
     border: solid rgb(184, 184, 184);
     border-radius: 10%;
@@ -9,7 +9,7 @@ input[type=text] {
   }
 
 
-.location-bar{
+.location-bar, .notes-bar, .date-bar{
     display: inline-block;
 }
 
