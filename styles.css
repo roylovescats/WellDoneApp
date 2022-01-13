@@ -5,7 +5,7 @@
   font-size: 16px;
   border: none;
 }
-
+  
 .dropdown {
   position: relative;
   display: inline-block;
@@ -36,4 +36,9 @@
 
 .border-right {
   border-right: 1px solid
+}
+
+.dark-mode {
+  background-color: #120639;
+  color: #ddd;
 }
