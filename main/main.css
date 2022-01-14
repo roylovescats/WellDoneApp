@@ -1,0 +1,25 @@
+.container {
+  max-width: 80%;
+}
+
+h1 {
+  font-size: 5vw
+}
+
+h2 {
+  font-size: 2.5vw;
+}
+
+h3{
+  font-size: 2.6vw;
+  font-weight: 800;
+}
+
+p {
+  margin-bottom: 0;
+}
+
+.list-group-item {
+  padding: 2.5rem 0rem;
+  font-size: 2.25vw;
+}
