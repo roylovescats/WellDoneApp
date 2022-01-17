@@ -6,16 +6,25 @@
   }
   .buttonTrue {
     display: inline-block;
+<<<<<<< HEAD
     /* padding: 5px 10px; */
     margin: 5px 10px;
     font-size: 24px;
     cursor: pointer;
     text-align: center;
+=======
+]    padding: 5px 10px;
+    font-size: 24px;
+    cursor: pointer;
+    text-align: center;
+    
+>>>>>>> 29d5e1c29a2bf63564040e228f37b1109589958b
     color: rgb(223, 223, 223);
   }
   
   .buttonFalse {
     display: inline-block;
+<<<<<<< HEAD
     /* padding: 5px 10px; */
     margin: 5px 10px;
     font-size: 24px;
@@ -24,3 +33,11 @@
     color: rgb(128, 128, 128);
   }  
 
+=======
+    padding: 5px 10px;
+    font-size: 24px;
+    cursor: pointer;
+    text-align: center;
+    color: grey;
+  }  
+>>>>>>> 29d5e1c29a2bf63564040e228f37b1109589958b

@@ -9,7 +9,11 @@ import './AddTask.css';
 import { NavigationBar } from "../NavigationBar/NavigationBar";
 
 
+<<<<<<< HEAD
 export default class AddTask extends React.Component {
+=======
+export class AddTask extends React.Component {
+>>>>>>> 29d5e1c29a2bf63564040e228f37b1109589958b
   render() {
     return (
       
@@ -19,6 +23,7 @@ export default class AddTask extends React.Component {
             <div className="col pb-2 border-bottom"> 
               {/* New Task Title Input */}
 
+<<<<<<< HEAD
               <input  className="mt-2 border-0 new-task-title w-100" 
                       type="text" 
                       placeholder="New Task Title" 
@@ -28,6 +33,9 @@ export default class AddTask extends React.Component {
                       onChange={this.props.onChange}
               >
               </input>
+=======
+              <input className="mt-2 border-0 new-task-title w-100" type="text" placeholder="New Task Title" style={{lineHeight: 0, overflow: "hidden"}} value={this.props.title} onChange={this.props.onChange}></input>
+>>>>>>> 29d5e1c29a2bf63564040e228f37b1109589958b
 
    
         
@@ -58,6 +66,7 @@ export default class AddTask extends React.Component {
                 {/* date icon */}
                 <i class="fas fa-calendar-alt small-icon details-icon"></i>
                 {/* Input date */}
+<<<<<<< HEAD
                 <input  id="date" 
                         className="add-task ms-2 input-boxs details-text" 
                         type="date" 
@@ -67,12 +76,16 @@ export default class AddTask extends React.Component {
                         onfocus="(this.type = 'date')" onblur="(this.type='text')" 
                         onChange={this.props.onChange}
                         />
+=======
+                <input id="date" className="add-task ms-2 input-boxs details-text" type="date" value="" placeholder="Date" onfocus="(this.type = 'date')" onblur="(this.type='text')" />
+>>>>>>> 29d5e1c29a2bf63564040e228f37b1109589958b
               </div>
 
               <div className="mt-5">
                 {/* time icon */}
                 <i className="fas fa-clock small-icon details-icon"></i>
                 {/* Input time */}
+<<<<<<< HEAD
                 <input  className="add-task ms-2 input-box details-text" 
                         name="time"
                         type="time"
@@ -83,12 +96,18 @@ export default class AddTask extends React.Component {
                         onChange={this.props.onChange}
                         >
                 </input>
+=======
+                <input className="add-task ms-2 input-box details-text" type="time"
+                  placeholder="time" onfocus="(this.type = 'time')" onblur="(this.type='text')"
+                  ></input>
+>>>>>>> 29d5e1c29a2bf63564040e228f37b1109589958b
 
               </div>
               <div className="mt-5">
                 {/* location icon */}
                 <i className="fas fa-map-marker-alt small-icon details-icon" ></i>
                 {/* Input location */}
+<<<<<<< HEAD
                 <input  className="add-task ms-2 input-boxs details-text"
                         name="location"
                         value={this.props.location}
@@ -99,6 +118,9 @@ export default class AddTask extends React.Component {
                         >
                 </input>
 
+=======
+                <input className="add-task ms-2 input-boxs details-text" type="text" placeholder="Location"></input>
+>>>>>>> 29d5e1c29a2bf63564040e228f37b1109589958b
                 <br></br>
                 
                 {/* <div className="col"></div> */}

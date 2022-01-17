@@ -50,9 +50,15 @@ export class Hamburger extends React.Component {
           <a href="#" value="starred">
             Starred
           </a>
+<<<<<<< HEAD
           <div className="dropdown">
             <button className="dropbtn">Dropdown</button>
             <div className="dropdown-content">
+=======
+          <div class="dropdown">
+            <button class="dropbtn">Dropdown</button>
+            <div class="dropdown-content">
+>>>>>>> 29d5e1c29a2bf63564040e228f37b1109589958b
               <a href="#">Link 1</a>
               <a href="#">Link 2</a>
               <a href="#">Link 3</a>

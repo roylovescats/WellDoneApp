@@ -1,8 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+<<<<<<< HEAD
 // import App from './Components/App/App';
 import App from './Components/App/App(Refactor)';
+=======
+import App from './Components/App/App';
+>>>>>>> 29d5e1c29a2bf63564040e228f37b1109589958b
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(

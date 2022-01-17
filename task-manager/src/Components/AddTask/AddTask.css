@@ -5,6 +5,7 @@
     font-size: 1.5vw;
 }
 
+<<<<<<< HEAD
 .title-row {
     height: 15%;
     overflow: hidden;
@@ -28,6 +29,17 @@
 
 .new-task-title {
     line-height: 0;
+=======
+.title-row  {
+    height: 15%;
+    max-height: 15%;
+    /* overflow: hidden; */
+}
+
+.new-task-title{
+    font-size: calc(2.5rem + 0.5vw); 
+    font-weight: 800;
+>>>>>>> 29d5e1c29a2bf63564040e228f37b1109589958b
 }
 
 .note-col{

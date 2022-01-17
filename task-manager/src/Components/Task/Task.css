@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 #testing{
     background-color: white;
+=======
+.task-icon {
+
+>>>>>>> 29d5e1c29a2bf63564040e228f37b1109589958b
 }
 
 .task-title {
@@ -12,6 +17,7 @@
     text-align: start;
     font-size: 1.5vw
 }
+<<<<<<< HEAD
 
 .complete{
     text-decoration: line-through;
@@ -37,3 +43,5 @@
     text-align: center;
     color: rgb(128, 128, 128);
   }  
+=======
+>>>>>>> 29d5e1c29a2bf63564040e228f37b1109589958b

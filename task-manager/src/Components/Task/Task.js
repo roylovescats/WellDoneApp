@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Task.css'
@@ -57,12 +58,22 @@ export default function Task(props) {
     //     e.target.style.color == 'rgb(181, 181, 181)' ? setColor('white') : setColor('rgb(181, 181, 181)');
     }
 
+=======
+import React from "react";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './Task.css'
+import {Tick} from '../../Components/ticktick/ticktick.js';
+
+
+export default function Task(props) {
+>>>>>>> 29d5e1c29a2bf63564040e228f37b1109589958b
     return (
         <div>
             {/* <!-- Start of item row --> */}
             <div className="row">
                 {/* <!-- icon column --> */}
                 <div className="col-1">
+<<<<<<< HEAD
                     {/* <!-- icon --> */}
                     <div className="container task-icon">
                         <button name="complete" checked={complete} onChange={changeState} className={button ? "buttonTrue" : "buttonFalse"}
@@ -104,10 +115,31 @@ export default function Task(props) {
                         {/* <p  onClick={() => setExpandList('500px')}>...</p> */}
                     </div>
                     {/* <!-- End of Task column --> */}
+=======
+                {/* <!-- icon --> */}
+                <Tick className="task-icon"/>
+                {/* <i className="fas fa-check task-icon"></i> */}
+                </div>
+                {/* <!-- Start of Task column --> */}
+                <div className="col-10 task-description">
+                {/* <!-- Start of Task row --> */}
+                <div className="row">
+             
+                    <p className="task-title">
+                        {props.title}
+                    </p> 
+                </div>
+                {/* <!-- Description row --> */}
+                <div className="row">
+                    <p className="text-secondary task-details">7:00am ‧ Home</p>
+                </div>
+                {/* <!-- End of Task column --> */}
+>>>>>>> 29d5e1c29a2bf63564040e228f37b1109589958b
                 </div>
                 {/* <!-- End of item row --> */}
             </div>
         </div>
+<<<<<<< HEAD
     )
 }
 
@@ -140,3 +172,7 @@ export default function Task(props) {
 //                   onChange={this.changeState} />
 //     </div>
 //   )
+=======
+            ) 
+}
+>>>>>>> 29d5e1c29a2bf63564040e228f37b1109589958b

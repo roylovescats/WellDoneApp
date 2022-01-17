@@ -9,7 +9,11 @@ import './App.css';
 import Welcome from '../Welcome/Welcome';
 import Task from '../Task/Task';
 import { NavigationBar } from '../NavigationBar/NavigationBar';
+<<<<<<< HEAD
 import { TaskList } from '../../Components/TaskList/TaskList';
+=======
+import TaskList from '../../Components/TaskList/TaskList';
+>>>>>>> 29d5e1c29a2bf63564040e228f37b1109589958b
 import { Hamburger } from '../../Components/Hamburger/Hamburger';
 import { Clock } from '../../Components/Clock/Clock';
 import { AddTask } from '../../Components/AddTask/AddTask';
@@ -18,17 +22,25 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+<<<<<<< HEAD
       task: {
         done: false,
       },
+=======
+      task: {},
+>>>>>>> 29d5e1c29a2bf63564040e228f37b1109589958b
       allTasks: [],
       rightColStatus: false,
     }
     this.toggleRight = this.toggleRight.bind(this)
+<<<<<<< HEAD
     // this.handleChangeSubject = this.handleChangeSubject.bind(this)
     // this.handleChangeTime = this.handleChangeTime.bind(this)
     // this.handleChangeLocation = this.handleChangeLocation.bind(this)
     this.handleChange = this.handleChange.bind(this)
+=======
+    this.handleChangeSubject = this.handleChangeSubject.bind(this)
+>>>>>>> 29d5e1c29a2bf63564040e228f37b1109589958b
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
@@ -44,6 +56,7 @@ class App extends React.Component {
     e.preventDefault();
     this.setState({
       allTasks: this.state.allTasks.concat(this.state.task),
+<<<<<<< HEAD
       task: {
         done: false
       },
@@ -57,12 +70,27 @@ class App extends React.Component {
       task: {
         ...this.state.task,
         [e.target.name]: e.target.value,
+=======
+      task: {},
+      rightColStatus: !this.state.rightColStatus
+    })
+  }
+
+  handleChangeSubject(e) {
+    let newTitle = e.target.value
+    this.setState({
+      task: {
+        title: newTitle,
+>>>>>>> 29d5e1c29a2bf63564040e228f37b1109589958b
       }
     })
   }
 
+<<<<<<< HEAD
   
 
+=======
+>>>>>>> 29d5e1c29a2bf63564040e228f37b1109589958b
   render() {
     return (
       <div className="App wrapper">
@@ -94,10 +122,14 @@ class App extends React.Component {
               {/* Start of right column */}
               <div className='col-md-6'>
 
+<<<<<<< HEAD
                 {this.state.rightColStatus && 
                 <AddTask  onClick={this.handleSubmit}
                           onChange={this.handleChange}
                 />}
+=======
+                {this.state.rightColStatus && <AddTask onClick={this.handleSubmit} onChange={this.handleChangeSubject}/>}
+>>>>>>> 29d5e1c29a2bf63564040e228f37b1109589958b
               </div>
               {/* End of right column */}
             </div>
