@@ -1,18 +1,10 @@
 .title-row {
-<<<<<<< HEAD
     height: 10%;
 }
 
 .title {
     font-size: calc(1rem + 2.2vw);
     font-weight: 800;
-=======
-    height: 15%;
-}
-
-.title {
-    font-size: calc(2.5rem + 0.5vw);
->>>>>>> 29d5e1c29a2bf63564040e228f37b1109589958b
 }
 
 .main-column {
@@ -21,7 +13,6 @@
 
 .list-group-flush {
     max-height: 55vh; overflow-y: scroll; overflow-x: hidden;
-<<<<<<< HEAD
 }
 
 .btnClass {
@@ -69,6 +60,3 @@
 .removebtn:hover {background-color: #ddd;}
 
 .dropdown:hover .dropdown-content {display: block;}
-=======
-}
->>>>>>> 29d5e1c29a2bf63564040e228f37b1109589958b
