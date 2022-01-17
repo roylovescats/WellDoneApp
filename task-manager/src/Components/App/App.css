@@ -1,5 +1,4 @@
 .App {
-<<<<<<< HEAD
   text-align: left;
   height: 100vh;
 }
@@ -21,12 +20,6 @@ main {
   margin: 0 auto;
 }
 /* .App-logo {
-=======
-  text-align: center;
-}
-
-.App-logo {
->>>>>>> 76d8f75adb46b2506ff89f4093676e1ba54916fa
   height: 40vmin;
   pointer-events: none;
 }
@@ -59,8 +52,4 @@ main {
   to {
     transform: rotate(360deg);
   }
-<<<<<<< HEAD
 } */
-=======
-}
->>>>>>> 76d8f75adb46b2506ff89f4093676e1ba54916fa
