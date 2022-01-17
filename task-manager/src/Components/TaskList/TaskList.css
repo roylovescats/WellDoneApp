@@ -1,0 +1,15 @@
+.title-row {
+    height: 15%;
+}
+
+.title {
+    font-size: calc(2.5rem + 0.5vw);
+}
+
+.main-column {
+    padding-right: 0;
+}
+
+.list-group-flush {
+    max-height: 55vh; overflow-y: scroll; overflow-x: hidden;
+}

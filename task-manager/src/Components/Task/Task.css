@@ -1,0 +1,14 @@
+.task-icon {
+
+}
+
+.task-title {
+    text-align: start;
+    font-size: 2.25vw;
+    display: inline;
+}
+
+.task-details {
+    text-align: start;
+    font-size: 1.5vw
+}
