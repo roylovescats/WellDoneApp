@@ -1,4 +1,5 @@
 import logo from './logo.svg';
+<<<<<<< HEAD
 import React from 'react';
 
 // import Boostrap
@@ -92,6 +93,33 @@ class App extends React.Component {
         </main>
 
 
+=======
+import './App.css';
+import { Hamburger } from '../../Components/Hamburger/Hamburger.js';
+import { Clock } from '../../Components/Clock/Clock';
+
+function App() {
+  return (
+    <div className="App">
+      <Clock />
+    </div>
+  );
+}
+
+class App extends React.Component {
+  constructor(props){
+    super(props)
+    this.openHamburger 
+  }
+  openHamburger() {
+    this.setState()
+  }
+  render(){
+    return (
+      <div>
+        <Clock />
+        <Hamburger />
+>>>>>>> 76d8f75adb46b2506ff89f4093676e1ba54916fa
       </div>
     )
   }
