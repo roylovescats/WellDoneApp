@@ -21,7 +21,7 @@
 .buttonTrue {
     display: inline-block;
     /* padding: 5px 10px; */
-    margin: 5px 10px;
+    /* margin: 5px 10px; */
     font-size: 24px;
     cursor: pointer;
     text-align: center;
@@ -31,9 +31,13 @@
   .buttonFalse {
     display: inline-block;
     /* padding: 5px 10px; */
-    margin: 5px 10px;
+    /* margin: 5px 10px; */
     font-size: 24px;
     cursor: pointer;
     text-align: center;
     color: rgb(128, 128, 128);
   }  
+
+  .col-1 {
+      padding: 0
+  }
