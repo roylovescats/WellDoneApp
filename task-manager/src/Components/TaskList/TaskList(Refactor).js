@@ -6,7 +6,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './TaskList.css';
 
 // import task component
-import Task from '../Task/Task';
+// import Task from '../Task/Task';
+import Task from '../Task/Task(Refactor)';
 
 export default function TaskList ({ allTasks }) {
     return (
@@ -41,7 +42,8 @@ export default function TaskList ({ allTasks }) {
                         {/* <!-- Start of the list --> */}
                         <ul className="list-group list-group-flush w-100">
                         {/* <!-- Task Item(s) --> */}
-                        {allTasks.map(task => <li className="list-group-item"><Task task={task}/></li>)}
+                        {/* {allTasks.map(task => <li className="list-group-item"><Task task={task}/></li>)} */}
+                        {allTasks.map(task => <li className="list-group-item" key={task.id}><Task task={task} /></li>)}
                         </ul>
                     </div>
                 </div>
