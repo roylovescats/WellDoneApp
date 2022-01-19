@@ -41,3 +41,11 @@
   .col-1 {
       padding: 0
   }
+
+  .noteShowTrue{
+    overflow-wrap: break-word;  
+}
+
+  .noteShowFalse{
+      display: none;
+  }

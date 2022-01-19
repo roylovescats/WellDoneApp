@@ -38,8 +38,11 @@ export default function AddTask ({ newTask, handleSubmit, handleChange}) {
 				{/* Input notes */}
 				<input
 					className="w-100 add-task subtitle mt-5"
+					name='note'
 					type="text"
-					placeholder="Notes"	
+					placeholder="Notes"
+					value={newTask.note}
+					onChange={handleChange}
 					>
 				</input>
 

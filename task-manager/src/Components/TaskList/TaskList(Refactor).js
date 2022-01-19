@@ -9,7 +9,8 @@ import './TaskList.css';
 // import Task from '../Task/Task';
 import Task from '../Task/Task(Refactor)';
 
-export default function TaskList ({ allTasks }) {
+export default function TaskList({ allTasks }) {    
+
     return (
         <div className="row h-100">
             <div className="col">
@@ -22,28 +23,31 @@ export default function TaskList ({ allTasks }) {
                     </div>
                 </div>
                 {/* <!-- End of upper part: Title --> */}
-
                 {/* <!-- Start of lower part: List --> */}
                 <div className="row">
-                <div className="btnClass">
-                    <div className="dropdown">
-                        <button className="dropbtn  fas fa-chevron-down">SORT BY</button>
-                        <div className="dropdown-content">
-                        <a href="#">A-Z</a>
-                        <a href="#">Z-A</a>
+                    <div className="btnClass">
+                        <div className="dropdown">
+                            <button className="dropbtn  fas fa-chevron-down">SORT BY</button>
+                            <div className="dropdown-content">
+                                <a href="#">A-Z</a>
+                                <a href="#">Z-A</a>
+                            </div>
+                        </div>
+                        <div className="remove">
+                            <button className="removebtn">REMOVE DONE</button>
                         </div>
                     </div>
-                    <div className="remove">
-                        <button className="removebtn">REMOVE DONE</button>
-                    </div>
-                </div>
                     {/* <!-- Start of main column --> */}
                     <div className="col mt-4 main-column">
                         {/* <!-- Start of the list --> */}
                         <ul className="list-group list-group-flush w-100">
-                        {/* <!-- Task Item(s) --> */}
-                        {/* {allTasks.map(task => <li className="list-group-item"><Task task={task}/></li>)} */}
-                        {allTasks.map(task => <li className="list-group-item" key={task.id}><Task task={task} /></li>)}
+                            {/* <!-- Task Item(s) --> */}
+                            <div>
+                                <div>
+                                    {allTasks.map(task => <li className="list-group-item"><Task task={task} /></li>)}
+                                </div>
+                            </div>
+
                         </ul>
                     </div>
                 </div>
