@@ -21,11 +21,17 @@ export default function Task({ task }) {
         details.push(location)
     }
 
-    const [ done, setDone ] = useState(task.done);
+    const [done, setDone] = useState(task.done);
     const handleDone = () => {
         setDone(!done)
         console.log(done)
     }
+
+    const [expand, setExpand] = useState(false);
+    const handleExpand = () => {
+        setExpand(!expand)
+    }
+
     // const changeColor = () => {
     //     setButton(!button)
     // }
@@ -39,11 +45,11 @@ export default function Task({ task }) {
     // }
 
 
-//state for changing bg color after tick(mark as done)
+    //state for changing bg color after tick(mark as done)
     // const [color, setColor] = useState();
     // const divStyle = { backgroundColor: color };
 
-//state for expanding list when ... clicked for details
+    //state for expanding list when ... clicked for details
     // const [expandList, setExpandList] = useState('auto');
     // const containerHeight = {height: expandList};
 
@@ -51,6 +57,7 @@ export default function Task({ task }) {
         task.done = !task.done;
         console.log(task.done)
     }
+
     return (
         <div>
             {/* <!-- Start of item row --> */}
@@ -63,7 +70,7 @@ export default function Task({ task }) {
                             onClick={changeColor}
                         > */}
                         {/* <button class="w-100"  onClick={handleDone}> */}
-                            <i onClick={handleDone} className={done ? 'fas fa-check buttonTrue' : 'fas fa-check buttonFalse'}></i>
+                        <i onClick={handleDone} className={done ? 'fas fa-check buttonTrue' : 'fas fa-check buttonFalse'}></i>
 
                         {/* </button> */}
                         {/* </button> */}
@@ -87,11 +94,14 @@ export default function Task({ task }) {
                         <p className="text-secondary task-details">
                             {details.join(' ‧ ')}
                         </p>
+                        {/* click to show input of notes */}
+                        <p onClick={handleExpand}>...</p>
+                        <p className={expand ? 'noteShowTrue' : 'noteShowFalse'}>{task.note}</p>
                     </div>
                     {/* <!-- End of Task column --> */}
                 </div>
                 {/* <!-- End of item row --> */}
             </div>
-            </div>
-            )
+        </div>
+    )
 }
