@@ -24,38 +24,13 @@ export default function Task({ task }) {
     const [done, setDone] = useState(task.done);
     const handleDone = () => {
         setDone(!done)
+        task.done = !task.done
         console.log(done)
     }
 
     const [expand, setExpand] = useState(false);
     const handleExpand = () => {
         setExpand(!expand)
-    }
-
-    // const changeColor = () => {
-    //     setButton(!button)
-    // }
-
-    // const changeState = (event) => {
-    //     let value = event.target.value;
-    //     if (event.target.name === 'complete') {
-    //         value = event.target.checked
-    //     }
-    //     setComplete({ [event.target.name]: value })
-    // }
-
-
-    //state for changing bg color after tick(mark as done)
-    // const [color, setColor] = useState();
-    // const divStyle = { backgroundColor: color };
-
-    //state for expanding list when ... clicked for details
-    // const [expandList, setExpandList] = useState('auto');
-    // const containerHeight = {height: expandList};
-
-    const handleToggle = () => {
-        task.done = !task.done;
-        console.log(task.done)
     }
 
     return (
@@ -66,14 +41,7 @@ export default function Task({ task }) {
                 <div className="col-1">
                     {/* <!-- icon --> */}
                     <div className="mx-auto w-100 h-100">
-                        {/* <button name="complete" checked={complete} onChange={changeState} className={button ? "buttonTrue" : "buttonFalse"}
-                            onClick={changeColor}
-                        > */}
-                        {/* <button class="w-100"  onClick={handleDone}> */}
-                        <i onClick={handleDone} className={done ? 'fas fa-check buttonTrue' : 'fas fa-check buttonFalse'}></i>
-
-                        {/* </button> */}
-                        {/* </button> */}
+                      <i onClick={handleDone} className={done ? 'fas fa-check buttonFalse' : 'fas fa-check buttonTrue'}></i>
                     </div>
                     {/* <i className="fas fa-check task-icon"></i> */}
                 </div>
@@ -82,9 +50,8 @@ export default function Task({ task }) {
                 <div className="col-10 task-description" id="testing">
                     {/* <!-- Start of Task row --> */}
                     <div className="row">
-                        {/* <p name="name" className={'task-title' + (complete ? ' complete ' : '')} onChange={changeState}> */}
+                        <p name="name" className={'task-title' + (done ? ' complete ' : '')}>
                         {/* Andison:<input name="name" type="text" class={'taskTitle' +(this.state.complete ? ' complete ' : '')} value={this.state.name} onChange={this.changeState} /> */}
-                        <p>
                             {task.title}
                         </p>
                     </div>
