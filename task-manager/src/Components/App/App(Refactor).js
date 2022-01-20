@@ -68,6 +68,11 @@ export default function App() {
 		}
 	}
 
+	const removeDone = (e) => {
+		e.preventDefault();
+		setAllTasks(allTasks.filter(task => task.done === false))
+	  }
+
 	// const panes = allTasks.map((v, index) => (
 	// 	<Pane key={index} style={{backgroundColor:'red'}} defaultSize={{ width: '100%', height: 120 }}>
 	// 	</Pane>
@@ -91,7 +96,10 @@ export default function App() {
 						{/* Start of left column */}
 						<div className="col-md-6 d-none d-md-block">
 							{/* <Welcome /> */}
-							<TaskList allTasks={allTasks} />
+							<TaskList 
+								allTasks={allTasks}
+								removeDone={removeDone}
+								/>
 						</div>
 						{/* End of left column */}
 						{/* Start of right column */}
