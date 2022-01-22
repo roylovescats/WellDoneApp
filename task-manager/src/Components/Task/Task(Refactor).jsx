@@ -3,10 +3,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
 import './Task.css'
 
-// const [button, setButton] = useState(true);
-// const [complete, setComplete] = useState(false);
+//import dnd
+import { Draggable } from 'react-beautiful-dnd';
 
-export default function Task({ task }) {
+export default function Task({ task, index }) {
     const details = [];
     const time = task.time
     const location = task.location
@@ -34,9 +34,19 @@ export default function Task({ task }) {
     }
 
     return (
-        <div>
-            {/* <!-- Start of item row --> */}
-            <div className="row task-card">
+        <Draggable
+            draggableId={task.id}
+            index={index}
+        >
+            {(provided,snapshot) => (
+            /* <!-- Start of item row --> */
+            <div
+                ref={provided.innerRef}
+                {...provided.draggableProps}
+                {...provided.dragHandleProps}
+                // isDraaging={snapshot.isDraaging}
+                className="row task-card"
+            >
                 {/* <!-- icon column --> */}
                 <div className="col-1">
                     {/* <!-- icon --> */}
@@ -69,6 +79,8 @@ export default function Task({ task }) {
                 </div>
                 {/* <!-- End of item row --> */}
             </div>
-        </div>
+
+            )}
+        </Draggable>
     )
 }
