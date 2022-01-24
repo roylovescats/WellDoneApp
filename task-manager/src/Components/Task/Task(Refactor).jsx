@@ -51,7 +51,7 @@ export default function Task({ task, index }) {
                 <div className="col-1">
                     {/* <!-- icon --> */}
                     <div className="mx-auto w-100 h-100">
-                      <i onClick={handleDone} className={done ? 'fas fa-check buttonFalse' : 'fas fa-check buttonTrue'}></i>
+                      <i onClick={handleDone} className={task.done ? 'fas fa-check buttonFalse' : 'fas fa-check buttonTrue'}></i>
                     </div>
                     {/* <i className="fas fa-check task-icon"></i> */}
                 </div>
@@ -60,7 +60,7 @@ export default function Task({ task, index }) {
                 <div className="col-10 task-description" id="testing">
                     {/* <!-- Start of Task row --> */}
                     <div className="row">
-                        <p name="name" className={'task-title' + (done ? ' complete ' : '')}>
+                        <p name="name" className={'task-title' + (task.done ? ' complete ' : '')}>
                         {/* Andison:<input name="name" type="text" class={'taskTitle' +(this.state.complete ? ' complete ' : '')} value={this.state.name} onChange={this.changeState} /> */}
                             {task.title}
                         </p>
