@@ -10,6 +10,7 @@ import TaskList from './TaskList';
 
 const Container = styled.div`
     height: 100vh; 
+    maxHeight: 100vh; 
     width: 100%;
     padding: 0;
     min-height: 850px;
@@ -137,8 +138,6 @@ function HomePage({allTasksList, allTasks, handleRemoveDone}) {
                                         <Task task={allTasks[taskId]}/>)
                                     }  
                                     {/* end of task item */}
-
-                                    
 
                                 </div>
                                 {/* end of task container */}

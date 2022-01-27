@@ -17,6 +17,9 @@ import TaskFormToggle from './TaskFormToggle';
 import SideBar from './SideBar';
 import HomePage from './HomePage';
 import TaskForm from './TaskForm';
+import ListsPage from './ListsPage';
+
+import Main from './Main';
 
 
 const Body = styled.div`
@@ -26,6 +29,7 @@ const Body = styled.div`
 
 const MainRow = styled.div`
   height: 100vh;
+  overflow: hidden
 `
 
 
@@ -87,7 +91,7 @@ function App() {
 			setNewTask({});
 	}
 
-
+  //Remove tasks marked as done
   const handleRemoveDone = (e) => {
 		e.preventDefault();
     setAllTasksList(allTasksList.filter(task => 
@@ -110,7 +114,7 @@ function App() {
 
   }
 
-
+  // Toggle add task form
   useEffect(() => {
     $(document).ready(function() {
       $('#addTask').on("click", function() {
@@ -136,19 +140,23 @@ function App() {
   return (
     <div className="App">
       <TaskFormToggle />
-      <Body className='container-fluid'>
+      <div className='container-fluid' style={{padding: 0, overflow: 'hidden'}}>
         <MainRow className='row'>
           <SideBar />
 
 
-
+          {/* <Main /> */}
           <main className="col">
-            <div className="row h-100">
+            <div className="row" style={{height: '100vh'}}>
+
               <HomePage
                 allTasksList={allTasksList}
                 allTasks={allTasks}
                 handleRemoveDone={handleRemoveDone}
                 />
+
+              <ListsPage />
+
 
             </div>
 
@@ -169,7 +177,7 @@ function App() {
         </MainRow>
 
         
-      </Body>
+      </div>
 
     </div>
   );

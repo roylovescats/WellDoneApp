@@ -108,7 +108,7 @@ function Task({task}) {
         <div id={"all" + task.id} className="accordion-collapse collapse"
             aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
             <div className="accordion-body row">
-                <div className="col offset-1 pt-3">
+                <div className="col offset-1 pt-3 h-auto">
                     <p style={{fontSize: 20}}>{task.notes}</p>
                 </div>
             </div>

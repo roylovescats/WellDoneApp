@@ -5,6 +5,7 @@
   background-size: cover;
   font-family: "Poppins";
   height: 100vh;
+  scroll-behavior: smooth;
 }
 
 
@@ -46,6 +47,13 @@ button {
   border: 0;
   padding: 0;
   margin: 0;
+}
+
+main {
+  height: 100%;
+  padding: 0;
+  overflow: hidden;
+  scroll-behavior: smooth;
 }
 
 /* Util style */
@@ -246,6 +254,30 @@ nav p.hidden {
   padding-bottom: 0;
 }
 
+/* Section 2 */
+
+.slider {
+  /* position: absolute; */
+  
+  overflow: hidden;
+}
+
+.slider-inner {
+  /* position: absolute; */
+  /* top: 0;
+  left: 0; */
+
+  margin-left: 2.5rem;
+  height: 100%;
+  width: 200%;
+  /* display: grid; */
+  /* grid-template-columns: repeat(7, 1fr); */
+  gap: 5px;
+  /* pointer-events: none; */
+  transition: 0s ease-in;
+  /* flex-direction: row; */
+  display: flex;
+}
 
 /* Task Form */
 #taskForm {
@@ -274,4 +306,13 @@ input[type=submit] {
   text-align: start;
   border: 0;
   width: auto;
+}
+
+textarea {
+  resize: none;
+  overflow: hidden;
+  min-height: 50px;
+  max-height: 100px;
+  width: 100%;
+  border: 0;
 }

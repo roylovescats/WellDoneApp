@@ -21,6 +21,7 @@ function TaskForm({ newTask, handleSubmit, handleChange}) {
                                 type="text" 
                                 placeholder="New Task Title" 
                                 name="title"
+                                maxLength="20"
                                 value={newTask.title || ""}
                                 onChange={handleChange}
                                 style={{background: 0}} />
@@ -35,8 +36,10 @@ function TaskForm({ newTask, handleSubmit, handleChange}) {
                         <label htmlFor="notes">Notes</label>
                         <textarea
                             className="mb-4"
+                            maxLength="30"
                             name="notes"
-                            id="notes" cols="30"
+                            id="notes"
+                            cols="30"
                             rows="10"
                             placeholder="Write some notes..."
                             value={newTask.notes || ""}
