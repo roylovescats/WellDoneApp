@@ -1,15 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import AllTaskList from './AllTaskList';
+import AllTasksList from './AllTasksList';
 
 //import Searcg bar component
 import SearchBar from './SearchBar';
-
-import Task from './Task'
-import TaskList from './TaskList';
-
-import { DragDropContext } from 'react-beautiful-dnd';
-
 
 const Container = styled.div`
     height: 100vh; 
@@ -47,10 +41,9 @@ const OverviewText = styled.div`
     left:50%;
     position: absolute; 
     font-size: clamp(25px, 1.5vw, 30px);
-
 `
 
-function HomePage({allTasksList, onDragEnd, allTasks, handleRemoveDone, handleEditTask, handleToggleDone, handleRemoveTask }) {
+function Overview({allTasksList, onDragEnd, allTasks, handleRemoveDone, handleEditTask, handleToggleDone, handleRemoveTask }) {
 
     return (
         <Container className='col-12' id="Home">
@@ -175,7 +168,7 @@ function HomePage({allTasksList, onDragEnd, allTasks, handleRemoveDone, handleEd
                         {/* end of function row */}
 
 
-                            <AllTaskList
+                            <AllTasksList
                                 allTasks={allTasks} 
                                 allTasksList={allTasksList} 
                                 onDragEnd={onDragEnd} 
@@ -203,4 +196,4 @@ function HomePage({allTasksList, onDragEnd, allTasks, handleRemoveDone, handleEd
     );
 }
 
-export default HomePage;
+export default Overview;

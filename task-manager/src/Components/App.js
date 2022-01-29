@@ -15,24 +15,14 @@ import TaskFormToggle from './TaskFormToggle';
 
 //import Sidebar
 import SideBar from './SideBar';
-import HomePage from './HomePage';
+import Overview from './Overview/Overview';
 import TaskForm from './TaskForm';
-import ListsPage from './ListsPage';
-
-import Main from './Main';
-
-
-const Body = styled.div`
-  padding: 0;
-  overflow: hidden;
-`
+import ListsPage from './Lists/ListsPage';
 
 const MainRow = styled.div`
   height: 100vh;
   overflow: hidden
 `
-
-
 
 function App() {
 
@@ -44,8 +34,32 @@ function App() {
 
   // lists for dnd
   // const [list, setList] = useState({})
-  // const [allLists, setAllLists] = useState([])
+  const [columns, setColumns] = useState({
+    'column-1': {
+      id: 'column-1',
+      title: 'To do',
+      taskIds: [],
+    },
+    'column-2': {
+      id: 'column-2',
+      title: 'In Progress',
+      taskIds: [],
+    },
+    'column-3': {
+      id: 'column-3',
+      title: 'Done',
+      taskIds: [],
+    },
+  })
+  const [columnsOrder, setColumnsOrder] = useState ([
 
+    'column-1',
+    'column-2', 
+    'column-3'
+  ])
+
+
+  // reorder tasks order on drag end
   const onDragEnd = result => {
     const { destination, source, draggableId } = result;
 
@@ -68,7 +82,6 @@ function App() {
     const newColumn = newTaskIds;
 
     setAllTasksList(newColumn);
-    console.log('123')
 }
 
   // new task form input
@@ -88,8 +101,7 @@ function App() {
 
     // console.log(allTasks)
 	};
-
-  //submit task
+  //submit new task
 	const handleSubmit = (event) => {
 		// prevent default action
 		event.preventDefault();
@@ -112,7 +124,7 @@ function App() {
 	}
   
 
-  //Remove tasks marked as done
+  // remove tasks marked as done
   const handleRemoveDone = e => {
 		e.preventDefault();
     setAllTasksList(allTasksList.filter(task => 
@@ -129,12 +141,11 @@ function App() {
       ))
       ;
   }
-
+  // remove task individually
   const handleRemoveTask = taskId => {
     delete allTasks[taskId]
     setAllTasksList(allTasksList.filter(task => task !== taskId))
   }
-
   // edit task detail
   const handleEditTask = (taskId, content) => {
     setAllTasks(prevAllTasks => ({
@@ -142,7 +153,6 @@ function App() {
       [taskId]: content
     }))
   }
-
   // toggle task done status
   const handleToggleDone = (taskId) => {
       setAllTasks(prevAllTasks => ({
@@ -154,8 +164,6 @@ function App() {
       }))
   }
 
-
-
   // Toggle add task form
   useEffect(() => {
     $(document).ready(function() {
@@ -164,10 +172,9 @@ function App() {
           $("#addBtn").toggleClass("active");
       })
   })
-  },[])
+  })
 
-
-  // fetch local data from local storge on page loaded
+  // fetch all tasks data
   useEffect(() => {
     if(!allTasks) {
       // fetch data from local storage
@@ -175,22 +182,24 @@ function App() {
       // add the parsed data to allTasks
       setAllTasks(JSON.parse(data));
     }
+    // only fetch on page loaded
   }, [])
-
-
-
+// fetch all tasks list data
   useEffect(() => {
       // fetch data from local storage
       const data = localStorage.getItem('testing-task-list');
       // add the parsed data to allTasks
       setAllTasksList(JSON.parse(data));
+  // only fetch on page loaded
   }, [])
 
-    // store tasks to local storage while adding task
+
+  // store all tasks data
 	useEffect(() => {
 		localStorage.setItem('testing-task', JSON.stringify(allTasks))
 	}, [allTasks, allTasksList])
 
+  // store all tasks list data
 	useEffect(() => {
 		localStorage.setItem('testing-task-list', JSON.stringify(allTasksList))
 	}, [allTasksList])
@@ -208,21 +217,23 @@ function App() {
           <SideBar />
 
 
-          {/* <Main /> */}
           <main className="col">
             <div className="row" style={{height: '100vh'}}>
 
-              <HomePage
+              <Overview
                 allTasksList={allTasksList}
-                allTasks={allTasks}
                 handleRemoveDone={handleRemoveDone}
                 onDragEnd={onDragEnd}
+                allTasks={allTasks}
                 handleEditTask={handleEditTask}
                 handleToggleDone={handleToggleDone}
                 handleRemoveTask={handleRemoveTask}
-                />
+              />
 
-              <ListsPage />
+              <ListsPage 
+                columns={columns}
+                columnsOrder={columnsOrder}
+              />
 
 
             </div>
