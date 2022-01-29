@@ -11,7 +11,7 @@ function SideBar() {
             $('#collapse').on("click", function() {
     
                 $("#sidebar").toggleClass("active");
-                $(".arrow-btn").toggleClass("");
+                $(".arrow-btn").toggleClass("active");
                 $('nav p').toggleClass("hidden");
     
     
@@ -33,7 +33,7 @@ function SideBar() {
                                 position:"absolute",
                                 right:7,
                                 top: 0
-                            }} className="d-inline arrow-btn" width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            }} className="d-inline arrow-btn active" width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M26.8748 7.16663L12.5415 21.5L26.8748 35.8333" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                                 

@@ -38,17 +38,40 @@ function App() {
 
 	// state of new task input
 	const [newTask, setNewTask] = useState({});
-  const [allTasks, setAllTasks] = useState({});
+  const [allTasks, setAllTasks] = useState(null);
 
   const [allTasksList, setAllTasksList] = useState([])
 
-
-
   // lists for dnd
-  const [list, setList] = useState({})
-  const [allLists, setAllLists] = useState([])
+  // const [list, setList] = useState({})
+  // const [allLists, setAllLists] = useState([])
 
-  // inputing form
+  const onDragEnd = result => {
+    const { destination, source, draggableId } = result;
+
+    if(!destination) {
+        return;
+    }
+
+    if (
+        destination.droppableId === source.droppableId &&
+        destination.index === source.index
+    ) {
+        return;
+    }
+
+    const newTaskIds = Array.from(allTasksList);
+
+    newTaskIds.splice(source.index, 1);
+    newTaskIds.splice(destination.index, 0, draggableId);
+
+    const newColumn = newTaskIds;
+
+    setAllTasksList(newColumn);
+    console.log('123')
+}
+
+  // new task form input
 	const handleChange = ({ target }) => {
 		// insert corresponding name and input as porperty [name] & value in the newTask object
 		const { name, value } = target;
@@ -63,7 +86,7 @@ function App() {
 		})
 		);
 
-    console.log(allTasks)
+    // console.log(allTasks)
 	};
 
   //submit task
@@ -71,11 +94,6 @@ function App() {
 		// prevent default action
 		event.preventDefault();
 
-		// nothing happens if no title input
-		if (!newTask.title) {
-			alert('Please provide a title for your task');
-			return;
-		};
 			// shift new task in all tasks list (before previous task(s))
 			setAllTasks((prevAllTasks) => ({
 				...prevAllTasks,
@@ -83,16 +101,19 @@ function App() {
       })
 			);
 
+      // add task id to all tasks list
       setAllTasksList((prev) => ([
         ...prev,
         newTask.id
       ]))
+
 			// empty the value of newTask
 			setNewTask({});
 	}
+  
 
   //Remove tasks marked as done
-  const handleRemoveDone = (e) => {
+  const handleRemoveDone = e => {
 		e.preventDefault();
     setAllTasksList(allTasksList.filter(task => 
       { 
@@ -104,37 +125,79 @@ function App() {
           delete allTasks[task]
         }
         return taskToKeep
-      
       }
       ))
-
       ;
-
-    // console.log(allTasksDone);
-
   }
+
+  const handleRemoveTask = taskId => {
+    delete allTasks[taskId]
+    setAllTasksList(allTasksList.filter(task => task !== taskId))
+  }
+
+  // edit task detail
+  const handleEditTask = (taskId, content) => {
+    setAllTasks(prevAllTasks => ({
+      ...prevAllTasks,
+      [taskId]: content
+    }))
+  }
+
+  // toggle task done status
+  const handleToggleDone = (taskId) => {
+      setAllTasks(prevAllTasks => ({
+        ...prevAllTasks,
+        [taskId]: {
+          ...allTasks[taskId],
+          done: !allTasks[taskId].done
+        }
+      }))
+  }
+
+
 
   // Toggle add task form
   useEffect(() => {
     $(document).ready(function() {
       $('#addTask').on("click", function() {
           $("#taskForm").toggleClass("active");
+          $("#addBtn").toggleClass("active");
       })
   })
   },[])
 
-	//store data in local storage with useEffect
 
-	// useEffect(() => {
-	// 	const data = localStorage.getItem('testing-task-list');
-	// 	if (data) {
-	// 		setAllTasks(JSON.parse(data));
-	// 	}
-	// }, [1])
+  // fetch local data from local storge on page loaded
+  useEffect(() => {
+    if(!allTasks) {
+      // fetch data from local storage
+      const data = localStorage.getItem('testing-task');
+      // add the parsed data to allTasks
+      setAllTasks(JSON.parse(data));
+    }
+  }, [])
 
-	// useEffect(() => {
-	// 	localStorage.setItem('testing-task-list', JSON.stringify(allTasks))
-	// })
+
+
+  useEffect(() => {
+      // fetch data from local storage
+      const data = localStorage.getItem('testing-task-list');
+      // add the parsed data to allTasks
+      setAllTasksList(JSON.parse(data));
+  }, [])
+
+    // store tasks to local storage while adding task
+	useEffect(() => {
+		localStorage.setItem('testing-task', JSON.stringify(allTasks))
+	}, [allTasks, allTasksList])
+
+	useEffect(() => {
+		localStorage.setItem('testing-task-list', JSON.stringify(allTasksList))
+	}, [allTasksList])
+
+
+
+
 
 
   return (
@@ -153,6 +216,10 @@ function App() {
                 allTasksList={allTasksList}
                 allTasks={allTasks}
                 handleRemoveDone={handleRemoveDone}
+                onDragEnd={onDragEnd}
+                handleEditTask={handleEditTask}
+                handleToggleDone={handleToggleDone}
+                handleRemoveTask={handleRemoveTask}
                 />
 
               <ListsPage />

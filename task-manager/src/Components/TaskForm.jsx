@@ -24,7 +24,9 @@ function TaskForm({ newTask, handleSubmit, handleChange}) {
                                 maxLength="20"
                                 value={newTask.title || ""}
                                 onChange={handleChange}
-                                style={{background: 0}} />
+                                style={{background: 0}}
+                                required
+                            />
                         </h3>
                     </div>
                 </div>
@@ -50,11 +52,11 @@ function TaskForm({ newTask, handleSubmit, handleChange}) {
                             className="mb-4"
                             name="lists"
                             id="lists"
-                            value={newTask.list || ""}
+                            value={newTask.list || "not selected"}
                             onChange={handleChange}
                         >
-                            <option value="null" selected disabled>not selected</option>
-                            <option value="Projects" selected disabled>Projects</option>
+                            <option value="not selected"  disabled>not selected</option>
+                            <option value="Projects" disabled>Projects</option>
                         </select>
         
                         <input

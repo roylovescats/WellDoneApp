@@ -1,3 +1,4 @@
+/* Body original */
 .App {
   position: relative;
   overflow: hidden;
@@ -6,6 +7,10 @@
   font-family: "Poppins";
   height: 100vh;
   scroll-behavior: smooth;
+}
+
+.App.theme {
+  /* background-image: url('./asset/photo-1526109753379-32666ca7fe2f.jpg'); */
 }
 
 
@@ -57,16 +62,16 @@ main {
 }
 
 /* Util style */
-.row {
+.row { /* reset bootstrap */
   margin: 0;
   padding: 0;
 }
 
-.row>* {
+.row>* { /* reset bootstrap */
   padding: 0;
 }
 
-.title-border {
+.title-border { /* title divider for section card */
   border-bottom-width: 1px !important;
     border-bottom-style: solid !important;
     border-bottom-color: #9cb3af!important;
@@ -88,8 +93,16 @@ main {
   justify-content: center;
 }
 
+#addBtn { /* add task button */
+  transition: 0.3s
+}
+
+#addBtn.active { /* rotate add task button */
+  transform: rotate(45deg); 
+}
+
 /* sidebar style */
-#sidebar {
+#sidebar { /* sidebar */
   transition: 1s;
   width: 290px;
   height: 100vh;
@@ -100,9 +113,19 @@ main {
   filter: drop-shadow(0.5px 0px 1px rgba(0, 0, 0, 0.25));
 }
 
-#sidebar.active {
+#sidebar.active { /* sidebar show */
   width: 65px !important;
 }
+
+.arrow-btn { /* arrow button */
+  transition: 0.3s;
+  transform: rotate(180deg);
+}
+
+.arrow-btn.active { /* side bar expand/ collapse button button */
+  transform: rotate(0deg)
+}
+
 
 #sidebar ul li{
   padding: 10px;
@@ -154,24 +177,10 @@ nav p.hidden {
 /* Section 1: Home */
 
 #Home {
-  min-height: 850px;
-  padding: 1rem !important  ; 
+  /* min-height: 850px; */
+  padding: 2rem !important  ; 
   height: 100%;
   overflow: hidden;
-}
-
-#Home .left-column {
-  padding-top: 3rem;
-  overflow: hidden;
-  max-height: 100%;
-}
-
-.left-column .date-n-time {
-  padding-bottom: .5rem;
-  padding-top: 1.5rem;
-  border-bottom: 1px solid #dee2e6;
-  display: flex;
-  justify-content: space-between;
 }
 
 .search-bar {
@@ -190,11 +199,12 @@ nav p.hidden {
 }
 
 .pinned-list {
-  height: 70%;
+  /* height: 70%; */
   border-radius: 12px;
   box-shadow: 0px 1px 1.5px rgba(0, 0, 0, 0.1);
-  border: 0.9px solid rgb(177, 177, 177);
-  border-color: rgb(89, 131, 89);
+  /* border: 0.9px solid rgb(177, 177, 177); */
+  background: white;
+  /* border-color: rgb(89, 131, 89); */
   /* background: linear-gradient(180deg, #F4F8F8 0%, #F6F7F8 100%); */
   /* background: linear-gradient(180deg, #b1b1b1 1.68%, #bebebe 98.38%); */
   /* background: linear-gradient(181. 98deg, rgba(196, 214, 208, 0.9) 18.3%, rgba(246, 247, 248, 0.43) 98.38%); */
@@ -216,8 +226,9 @@ nav p.hidden {
 .all-tasks {
   /* filter: drop-shadow(0px 0px 1.2px rgba(0, 0, 0, 0.25)); */
   box-shadow: 0px 1px 1.5px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
+  border-radius: 8px;
   overflow: hidden;
+  position: relative;
   
   background: linear-gradient(109.44deg, rgba(227, 227, 227, 0.43) 17.11%, rgba(117, 172, 134, 0.07) 56.79%, rgba(157, 157, 157, 0.13) 82.93%, rgba(145, 145, 145, 0) 111.71%);
   /* border: 0.9px solid;
@@ -229,7 +240,9 @@ nav p.hidden {
 }
 
 .all-tasks .task-list {
-  height: 80%; overflow: scroll;
+  height: 80%;
+  max-height: 80%;
+  overflow: scroll;
   /* background: rgb(142, 185, 142); */
   background: 0;
 }
@@ -278,6 +291,12 @@ nav p.hidden {
   /* flex-direction: row; */
   display: flex;
 }
+
+.task-list {
+  background: linear-gradient(181.98deg, rgba(196, 214, 208, 0.9) 18.3%, rgba(246, 247, 248, 0.43) 98.38%);
+
+}
+
 
 /* Task Form */
 #taskForm {
