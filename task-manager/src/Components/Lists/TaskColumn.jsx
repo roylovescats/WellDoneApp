@@ -1,7 +1,8 @@
-import React from 'react';
+
 import TaskCard from './TaskCard';
 
-function TaskColumn() {
+function TaskColumn({ column }) {
+
     return (
         <div 
             className="pt-md-5 me-3"
@@ -11,7 +12,8 @@ function TaskColumn() {
             }}
         >
             {/* Task list Title */}
-            <h3>PROJECT</h3>
+            {/* <h3>PROJECT</h3> */}
+            <h3>{column.title}</h3>
 
             {/* Task list Container */}
             <div 

@@ -51,8 +51,7 @@ function App() {
       taskIds: [],
     },
   })
-  const [columnsOrder, setColumnsOrder] = useState ([
-
+  const [columnsOrder, setColumnsOrder] = useState([
     'column-1',
     'column-2', 
     'column-3'

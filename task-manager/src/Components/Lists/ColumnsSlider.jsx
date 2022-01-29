@@ -1,7 +1,7 @@
 import React from 'react';
 import TaskColumn from './TaskColumn';
 
-function ColumnsSlider(props) {
+function ColumnsSlider({ columns, columnsOrder }) {
     return (
         <div className="slider w-100 h-100">
 
@@ -10,7 +10,14 @@ function ColumnsSlider(props) {
 
 
             {/* start of task List */}
-                <TaskColumn />
+                
+                {columnsOrder.map(columnsId => 
+                    <TaskColumn column={columns[columnsId]} />
+                
+
+                )}
+
+            {/* <TaskColumn /> */}
             {/* end of task list */}
 
             {/* add list button */}
