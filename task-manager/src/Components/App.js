@@ -31,17 +31,32 @@ function App() {
 
 	// state of new task input
 	const [newTask, setNewTask] = useState({});
-  const [allTasks, setAllTasks] = useState({});
+  const [allTasks, setAllTasks] = useState({
+    'task-1': {
+      title: 'Fuck You',
+      id:'task-1',
+      done: false,
+      location: 'Home'
+    },
+    'task-2': {
+      title: 'Fuck Me',
+      id:'task-2',
+      done: false
+    }
 
-  const [allTasksList, setAllTasksList] = useState([]);
+  });
 
   // lists for dnd
   // const [list, setList] = useState({})
   const [columns, setColumns] = useState({
+    'all-tasks': {
+      id: 'all-tasks',
+      taskIds: ['task-1', 'task-2']
+    },
     'column-1': {
       id: 'column-1',
       title: 'To do',
-      taskIds: ['1643614641445', '1643614644316'],
+      taskIds: ['task-1', 'task-2'],
     },
     'column-2': {
       id: 'column-2',
@@ -54,7 +69,7 @@ function App() {
       taskIds: [],
     },
   })
-  const [columnsOrder, setColumnsOrder] = useState([
+  const [columnOrder, setColumnOrder] = useState([
     'column-1',
     'column-2', 
     'column-3'
@@ -62,29 +77,100 @@ function App() {
 
 
   // reorder tasks order on drag end
+
   const onDragEnd = result => {
-    const { destination, source, draggableId } = result;
+    const { destination, source, draggableId, type } = result;
 
-    if(!destination) {
-        return;
+    if ( 
+      // if item is dropped outside of the droppable area or...
+      !destination ||
+      (
+          // if item is dropped at the same position as its place
+          destination.droppableId === source.droppableId &&
+          destination.index === source.index
+        )
+      ) 
+    {
+      // terminate function
+      return;
     }
 
-    if (
-        destination.droppableId === source.droppableId &&
-        destination.index === source.index
-    ) {
-        return;
+
+    if(type === 'columns') {
+      const newColumnOrder = Array.from(columnOrder);
+
+      newColumnOrder.splice(source.index, 1);
+      newColumnOrder.splice(destination.index, 0, draggableId);
+
+      setColumnOrder(newColumnOrder);
+
+      return;
     }
 
-    const newTaskIds = Array.from(allTasksList);
 
-    newTaskIds.splice(source.index, 1);
-    newTaskIds.splice(destination.index, 0, draggableId);
+    // declare starting point (check which droppable id the item is from)
+    const start = columns[source.droppableId];
+    // declare destination point (check which droppable id the item is dropped)
+    const finish = columns[destination.droppableId];
 
-    const newColumn = newTaskIds;
+    // if the items dropped as the same droppable id it belongs
+    if(start === finish) {
+      // make a copy of the task ids order array
+      const newTaskIds = Array.from(start.taskIds);
 
-    setAllTasksList(newColumn);
-}
+      // remove 1 item (the dragging item(id)) from the original index of the droppable 
+      newTaskIds.splice(source.index, 1);
+      // remove 0 item from the destination index of the droppable, 
+      // add the dragging item(id) after the index 
+      newTaskIds.splice(destination.index, 0, draggableId);
+      
+      // update data in the column
+      setColumns(prev => ({
+        ...prev,
+        [start.id]: {
+          ...start,
+          taskIds: newTaskIds
+        }
+      }));
+    console.log(columns['all-tasks'].taskIds)
+    console.log(newTaskIds)
+      
+      return;
+    }
+    
+    
+    // Moving from one list to another
+    // make a copy of the task ids array of the starting droppable
+    const startTaskIds = Array.from(start.taskIds);
+    // remove 1 item (dragging item(draggable id)) from the original index of the droppable
+    startTaskIds.splice(source.index, 1);
+    
+    // make a new state for later update the starting column data
+    const newStart = {
+      ...start,
+      taskIds: startTaskIds,
+    };
+    
+    // make a copy of the task ids array of the destination droppable
+    const finishTaskIds = Array.from(finish.taskIds);
+    // remove 0 item from the destination index of the droppable, 
+    // add the dragging item(id) after the index 
+    finishTaskIds.splice(destination.index, 0, draggableId)
+
+    // make a new state for later update the destination column data
+    const newFinish = {
+      ...finish,
+      taskIds: finishTaskIds,
+    };
+
+    // update columns data
+    setColumns(prev => ({
+      ...prev,
+      [newStart.id]: newStart,
+      [newFinish.id]: newFinish,
+    }))
+
+  }
 
   // new task form input
 	const handleChange = ({ target }) => {
@@ -101,7 +187,7 @@ function App() {
 		})
 		);
 
-    // console.log(allTasks)
+    console.log(columns['all-tasks'])
 	};
   //submit new task
 	const handleSubmit = (event) => {
@@ -115,11 +201,14 @@ function App() {
       })
 			);
 
-      // add task id to all tasks list
-      setAllTasksList((prev) => ([
+
+      setColumns(prev => ({
         ...prev,
-        newTask.id
-      ]))
+        'all-tasks': {
+          ...columns['all-tasks'],
+          taskIds: [...columns['all-tasks'].taskIds, newTask.id]
+        }
+      }))
 
 			// empty the value of newTask
 			setNewTask({});
@@ -129,24 +218,87 @@ function App() {
   // remove tasks marked as done
   const handleRemoveDone = e => {
 		e.preventDefault();
-    setAllTasksList(allTasksList.filter(task => 
-      { 
-        //keep tasks haven't been done on list, for later return
-        const taskToKeep = allTasks[task].done === false;
 
-        // delete task(s) done
-        if(allTasks[task].done === true) {
-          delete allTasks[task]
+
+    for(let key in columns) {
+      let newIds = columns[key].taskIds.filter(task => allTasks[task].done === false)
+
+      setColumns(prev => ({
+        ...prev,
+        [key]: {
+          ...columns[key],
+          taskIds: newIds
         }
-        return taskToKeep
-      }
-      ))
-      ;
+      }))
+    }
+
+    // columns['all-tasks'].taskIds.forEach(task => 
+    //   { 
+    //     //keep tasks haven't been done on list, for later return
+    //     // const taskToKeep = allTasks[task].done === false;
+
+    //     // delete task(s) done
+    //     if(allTasks[task].done === true) {
+
+    //       for(let key in columns) {
+    //         if(columns[key].taskIds.includes(task)) {
+    //           // console.log(key)
+    //           const newTaskIds = columns[key].taskIds;
+
+
+    //           newTaskIds.filter(id => id !== task)
+
+    //           // const index = newTaskIds.indexOf(task);
+    //           // if (index > -1) {
+    //           //   newTaskIds.splice(index, 1); // 2nd parameter means remove one item only
+    //           // }
+    //           setColumns(prev => ({
+    //             ...prev,
+    //             key: {
+    //               ...columns[key],
+    //               taskIds: newTaskIds
+    //             }
+    //           }))
+    //         }
+    //       }
+          
+    //       const newAllTasks = allTasks;
+    //       delete newAllTasks[task];
+    //       setAllTasks(newAllTasks);
+    //     }
+
+    //   }
+    //   );
+
+
   }
   // remove task individually
   const handleRemoveTask = taskId => {
-    delete allTasks[taskId]
-    setAllTasksList(allTasksList.filter(task => task !== taskId))
+
+    const newAllTasks = allTasks;
+    delete newAllTasks[taskId]
+    setAllTasks(newAllTasks)
+    // setColumns(columns['all-tasks'].taskIds.filter(task => task !== taskId));
+
+    for(let key in columns) {
+      if(columns[key].taskIds.includes(taskId)) {
+        const newTaskIds = columns[key].taskIds;
+        const index = newTaskIds.indexOf(taskId);
+        if (index > -1) {
+          newTaskIds.splice(index, 1); // 2nd parameter means remove one item only
+        }
+        setColumns(prev => ({
+          ...prev,
+          key: {
+            ...columns[key],
+            taskIds: newTaskIds
+          }
+        }))
+      }
+    }
+
+
+
   }
   // edit task detail
   const handleEditTask = (taskId, content) => {
@@ -174,11 +326,13 @@ function App() {
           $("#addBtn").toggleClass("active");
       })
   })
+
+
+  console.log(columns['all-tasks'])
   },[])
   
 //   // fetch all tasks data
 //   useEffect(() => {
-
 //     // fetch data from local storage
 //     const data = localStorage.getItem('testing-task');
 //     // add the parsed data to allTasks
@@ -225,7 +379,7 @@ function App() {
             <div className="row" style={{height: '100vh'}}>
 
               <Overview
-                allTasksList={allTasksList}
+                columns={columns}
                 handleRemoveDone={handleRemoveDone}
                 onDragEnd={onDragEnd}
                 allTasks={allTasks}
@@ -236,8 +390,9 @@ function App() {
 
               <ListsPage 
                 columns={columns}
-                columnsOrder={columnsOrder}
+                columnOrder={columnOrder}
                 onDragEnd={onDragEnd}
+                allTasks={allTasks}
               />
 
 

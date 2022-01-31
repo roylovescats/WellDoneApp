@@ -10,18 +10,18 @@ const TasksContainer = styled.div`
 `
 
 
-function AllTaskList({ allTasksList, onDragEnd, allTasks, handleEditTask, handleToggleDone, handleRemoveTask }) {
+function AllTaskList({ columns, onDragEnd, allTasks, handleEditTask, handleToggleDone, handleRemoveTask }) {
 
     return (
-        <DragDropContext className='' onDragEnd={onDragEnd}>
+        <DragDropContext onDragEnd={onDragEnd}>
         <div className="row task-list" style={{maxHeight: 645}}>
             {/* start of task list */}
             <div className="col-12">
 
                 {/* start of task container */}
                     <Droppable
-                        droppableId="allTask"
-                        type="allTask"
+                        droppableId="all-tasks"
+                        type="all-tasks"
                     >
                     {(provided, snapshot) => (
                         <TasksContainer
@@ -30,7 +30,7 @@ function AllTaskList({ allTasksList, onDragEnd, allTasks, handleEditTask, handle
                             ref={provided.innerRef}
                             // isDraggingOver={snapshot.isDraggingOver}    
                         >
-                            {allTasksList.map((taskId, index) => 
+                            {columns['all-tasks'].taskIds.map((taskId, index) => 
                                 <Task 
                                     key={allTasks[taskId].id}
                                     index={index}

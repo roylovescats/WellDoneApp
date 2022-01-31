@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+
+
+import $ from 'jquery';
+
 import styled from 'styled-components';
 import AllTasksList from './AllTasksList';
 import EmptyList from './EmptyList';
+
 
 //import Searcg bar component
 import SearchBar from './SearchBar';
@@ -44,8 +49,9 @@ const OverviewText = styled.div`
     font-size: clamp(25px, 1.5vw, 30px);
 `
 
-function Overview({allTasksList, onDragEnd, allTasks, handleRemoveDone, handleEditTask, handleToggleDone, handleRemoveTask }) {
+function Overview({columns, onDragEnd, allTasks, handleRemoveDone, handleEditTask, handleToggleDone, handleRemoveTask }) {
 
+    
     return (
         <Container className='col-12' id="Home">
             <div className="row h-100">
@@ -64,10 +70,12 @@ function Overview({allTasksList, onDragEnd, allTasks, handleRemoveDone, handleEd
                             display: 'flex',
                             justifyContent: 'space-between'}}
                         >       
-                                <OverviewBox>
+                                <OverviewBox id="fuck" >
                                     {/* date */}
-                                    <OverviewText >
-                                      MON 31
+                                    <OverviewText id="damn"
+                                    // style={{height: "100%", width: "100%"}}
+                                    >
+                                      <p id="fittext2">MON 31</p>
                                     </OverviewText>
                                 </OverviewBox>
 
@@ -229,7 +237,7 @@ function Overview({allTasksList, onDragEnd, allTasks, handleRemoveDone, handleEd
                         
                     <div className="mx-md-3 all-tasks" style={{height: "90%", position: 'relative'}}>
                         
-                        {allTasksList.length === 0 ? 
+                        {columns['all-tasks'].taskIds.length === 0 ? 
                             <EmptyList />
                         : 
                         <>
@@ -256,8 +264,8 @@ function Overview({allTasksList, onDragEnd, allTasks, handleRemoveDone, handleEd
                             {/* end of function row */}
 
                             <AllTasksList
-                                allTasks={allTasks} 
-                                allTasksList={allTasksList} 
+                                allTasks={allTasks}
+                                columns={columns}
                                 onDragEnd={onDragEnd} 
                                 handleEditTask={handleEditTask}
                                 handleToggleDone={handleToggleDone}

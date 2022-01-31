@@ -10,7 +10,16 @@ const Column = styled.div`
     display: inline-block;
 `
 
-function TaskColumn({ column, index }) {
+const TaskList = styled.div`
+    padding: 8;
+    transition: background 0.2 ease;     
+    // flexGrow: 0;
+    min-height: 100;
+    border-bottom-leftRadius: 3;
+    border-bottom-rightRadius: 3
+`
+
+function TaskColumn({ column, index, allTasks }) {
 
     return (
 
@@ -56,21 +65,48 @@ function TaskColumn({ column, index }) {
                             
                         </div>
 
-                        {/* start of task item */}
-                        <div style={{
-                            padding: 8,
-                            transition: "background 0.2 ease",     
-                            flexGrow: 0,
-                            minHeight: 100,
-                            borderBottomLeftRadius: 3,
-                            borderBottomRightRadius: 3
-                            }}
+
+
+                        <Droppable
+                            droppableId={column.id}
+                            type="tasks"
+                        >
+                            {(provided, snapshot) => (
+                                
+                            
+
+             
+                        <TaskList
+                                style={{
+                                    padding: 8
+                                }}
+                                ref={provided.innerRef}
                         >
 
                             {/* Task */}
-                            <TaskCard />
-                        </div>
-                        {/* end of task item */}
+                            {/* <TaskCard task={allTasks['task-1']}/> */}
+                            {column.taskIds.map((id, index) => 
+                            <TaskCard index={index} key={allTasks[id].id} task={allTasks[id]}/>
+
+                            )}
+
+                            {provided.placeholder}
+                        </TaskList>
+
+                        
+
+
+                        )}
+                        </Droppable>
+
+
+
+
+
+
+
+
+
 
                     </div>
                     {/* end of task list */}

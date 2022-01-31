@@ -12,7 +12,7 @@ const Container = styled.div`
 `
 
 
-function ColumnsSlider({ columns, columnsOrder, onDragEnd }) {
+function ColumnsSlider({ columns, columnOrder, onDragEnd, allTasks }) {
     return (
         <div className="slider w-100 h-100">
 
@@ -21,7 +21,7 @@ function ColumnsSlider({ columns, columnsOrder, onDragEnd }) {
             
 
         <DragDropContext
-            // onDragEnd={onDragEnd}
+            onDragEnd={onDragEnd}
         >
         <Droppable
             type='columns'
@@ -34,8 +34,8 @@ function ColumnsSlider({ columns, columnsOrder, onDragEnd }) {
                 ref={provided.innerRef}
                 // isDraggingOver={snapshot.isDraggingOver}    
             >
-                {columnsOrder.map((columnId, index) => 
-                    <TaskColumn key={index} column={columns[columnId]} index={index}/>
+                {columnOrder.map((columnId, index) => 
+                    <TaskColumn key={columnId} column={columns[columnId]} index={index} allTasks={allTasks}/>
                 )}
                 {provided.placeholder}
             </Container>
