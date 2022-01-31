@@ -13,8 +13,8 @@ const TasksContainer = styled.div`
 function AllTaskList({ allTasksList, onDragEnd, allTasks, handleEditTask, handleToggleDone, handleRemoveTask }) {
 
     return (
-        <DragDropContext className='mx-5' onDragEnd={onDragEnd}>
-        <div className="row  task-list">
+        <DragDropContext className='' onDragEnd={onDragEnd}>
+        <div className="row task-list" style={{maxHeight: 645}}>
             {/* start of task list */}
             <div className="col-12">
 

@@ -2,7 +2,7 @@ import React from 'react';
 
 function TaskForm({ newTask, handleSubmit, handleChange}) {
     return (
-        <div id="taskForm" className="col-auto d-none d-lg-block">
+        <div id="taskForm" className="col-auto d-lg-block">
 
             <form onSubmit={handleSubmit} className="h-100">
 

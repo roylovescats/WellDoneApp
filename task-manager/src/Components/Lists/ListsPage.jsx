@@ -2,7 +2,7 @@ import React from 'react';
 
 import ColumnsSlider from './ColumnsSlider'
 
-function ListsPage({ columns, columnsOrder }) {
+function ListsPage({ columns, columnsOrder, onDragEnd }) {
     return (
         <div 
             className="col-12"
@@ -53,7 +53,8 @@ function ListsPage({ columns, columnsOrder }) {
 
                 <ColumnsSlider
                     columns={columns}
-                    columnsOrder={columnsOrder} 
+                    columnsOrder={columnsOrder}
+                    onDragEnd={onDragEnd}
                 />
                 {/* overflow scroll X */}
 

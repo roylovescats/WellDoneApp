@@ -1,24 +1,47 @@
 import React from 'react';
 import TaskColumn from './TaskColumn';
 
-function ColumnsSlider({ columns, columnsOrder }) {
+import styled from 'styled-components';
+import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+
+
+const Container = styled.div`
+    display: inline-flex;
+    flex-wrap: none;
+    width: auto
+`
+
+
+function ColumnsSlider({ columns, columnsOrder, onDragEnd }) {
     return (
         <div className="slider w-100 h-100">
 
         {/* task lists contatiner */}
         <div className="slider-inner pt-md-4 ps-4">
+            
 
-
-            {/* start of task List */}
-                
-                {columnsOrder.map(columnsId => 
-                    <TaskColumn column={columns[columnsId]} />
-                
-
+        <DragDropContext
+            // onDragEnd={onDragEnd}
+        >
+        <Droppable
+            type='columns'
+            droppableId="all-columns"
+            direction="horizontal"
+        >
+        {(provided, snapshot) => (
+            <Container
+                {...provided.droppableProps}
+                ref={provided.innerRef}
+                // isDraggingOver={snapshot.isDraggingOver}    
+            >
+                {columnsOrder.map((columnId, index) => 
+                    <TaskColumn key={index} column={columns[columnId]} index={index}/>
                 )}
+                {provided.placeholder}
+            </Container>
+        )}
+        </Droppable>
 
-            {/* <TaskColumn /> */}
-            {/* end of task list */}
 
             {/* add list button */}
             <div className="pt-5 me-3" style={{width: 315, display: "inline-block"}}>
@@ -44,8 +67,11 @@ function ColumnsSlider({ columns, columnsOrder }) {
                 </div>
                 {/* end of task list */}
 
-
             </div>
+        </DragDropContext>
+
+            {/* <TaskColumn /> */}
+            {/* end of task list */}
 
 
             </div>

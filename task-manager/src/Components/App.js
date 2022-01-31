@@ -19,6 +19,9 @@ import Overview from './Overview/Overview';
 import TaskForm from './TaskForm';
 import ListsPage from './Lists/ListsPage';
 
+import MobileNav from './MobileNav';
+
+
 const MainRow = styled.div`
   height: 100vh;
   overflow: hidden
@@ -28,9 +31,9 @@ function App() {
 
 	// state of new task input
 	const [newTask, setNewTask] = useState({});
-  const [allTasks, setAllTasks] = useState(null);
+  const [allTasks, setAllTasks] = useState({});
 
-  const [allTasksList, setAllTasksList] = useState([])
+  const [allTasksList, setAllTasksList] = useState([]);
 
   // lists for dnd
   // const [list, setList] = useState({})
@@ -38,7 +41,7 @@ function App() {
     'column-1': {
       id: 'column-1',
       title: 'To do',
-      taskIds: [],
+      taskIds: ['1643614641445', '1643614644316'],
     },
     'column-2': {
       id: 'column-2',
@@ -171,37 +174,37 @@ function App() {
           $("#addBtn").toggleClass("active");
       })
   })
-  })
+  },[])
+  
+//   // fetch all tasks data
+//   useEffect(() => {
 
-  // fetch all tasks data
-  useEffect(() => {
-    if(!allTasks) {
-      // fetch data from local storage
-      const data = localStorage.getItem('testing-task');
-      // add the parsed data to allTasks
-      setAllTasks(JSON.parse(data));
-    }
-    // only fetch on page loaded
-  }, [])
-// fetch all tasks list data
-  useEffect(() => {
-      // fetch data from local storage
-      const data = localStorage.getItem('testing-task-list');
-      // add the parsed data to allTasks
-      setAllTasksList(JSON.parse(data));
-  // only fetch on page loaded
-  }, [])
+//     // fetch data from local storage
+//     const data = localStorage.getItem('testing-task');
+//     // add the parsed data to allTasks
+//     setAllTasks(JSON.parse(data));
+//   // only fetch on page loaded
+// }, [])
+
+// // fetch all tasks list data
+// useEffect(() => {
+//     // fetch data from local storage
+//     const data = localStorage.getItem('testing-task-list');
+//     // add the parsed data to allTasks
+//     setAllTasksList(JSON.parse(data));
+// // only fetch on page loaded
+// }, [])
 
 
-  // store all tasks data
-	useEffect(() => {
-		localStorage.setItem('testing-task', JSON.stringify(allTasks))
-	}, [allTasks, allTasksList])
+//   // store all tasks data
+// 	useEffect(() => {
+// 		localStorage.setItem('testing-task', JSON.stringify(allTasks))
+// 	}, [allTasks])
 
-  // store all tasks list data
-	useEffect(() => {
-		localStorage.setItem('testing-task-list', JSON.stringify(allTasksList))
-	}, [allTasksList])
+//   // store all tasks list data
+// 	useEffect(() => {
+// 		localStorage.setItem('testing-task-list', JSON.stringify(allTasksList))
+// 	}, [allTasksList])
 
 
 
@@ -211,6 +214,8 @@ function App() {
   return (
     <div className="App">
       <TaskFormToggle />
+      <MobileNav />
+
       <div className='container-fluid' style={{padding: 0, overflow: 'hidden'}}>
         <MainRow className='row'>
           <SideBar />
@@ -232,6 +237,7 @@ function App() {
               <ListsPage 
                 columns={columns}
                 columnsOrder={columnsOrder}
+                onDragEnd={onDragEnd}
               />
 
 
