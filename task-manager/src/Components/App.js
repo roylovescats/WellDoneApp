@@ -132,8 +132,6 @@ function App() {
           taskIds: newTaskIds
         }
       }));
-    console.log(columns['all-tasks'].taskIds)
-    console.log(newTaskIds)
       
       return;
     }
@@ -187,7 +185,7 @@ function App() {
 		})
 		);
 
-    console.log(columns['all-tasks'])
+    console.log(allTasks)
 	};
   //submit new task
 	const handleSubmit = (event) => {
@@ -220,9 +218,11 @@ function App() {
 		e.preventDefault();
 
 
-    for(let key in columns) {
-      let newIds = columns[key].taskIds.filter(task => allTasks[task].done === false)
+    const newArr = columns['all-tasks'].taskIds.slice();
 
+    for(let key in columns) {
+      let newIds = columns[key].taskIds.filter(task => allTasks[task].done === false
+      );
       setColumns(prev => ({
         ...prev,
         [key]: {
@@ -230,46 +230,20 @@ function App() {
           taskIds: newIds
         }
       }))
+      
     }
 
-    // columns['all-tasks'].taskIds.forEach(task => 
-    //   { 
-    //     //keep tasks haven't been done on list, for later return
-    //     // const taskToKeep = allTasks[task].done === false;
-
-    //     // delete task(s) done
-    //     if(allTasks[task].done === true) {
-
-    //       for(let key in columns) {
-    //         if(columns[key].taskIds.includes(task)) {
-    //           // console.log(key)
-    //           const newTaskIds = columns[key].taskIds;
+    newArr.forEach(task => {
 
 
-    //           newTaskIds.filter(id => id !== task)
+      if (allTasks[task].done) {
+        const newAllTasks = {...allTasks};
+        delete newAllTasks[task]
+        setAllTasks(newAllTasks)
+      }
 
-    //           // const index = newTaskIds.indexOf(task);
-    //           // if (index > -1) {
-    //           //   newTaskIds.splice(index, 1); // 2nd parameter means remove one item only
-    //           // }
-    //           setColumns(prev => ({
-    //             ...prev,
-    //             key: {
-    //               ...columns[key],
-    //               taskIds: newTaskIds
-    //             }
-    //           }))
-    //         }
-    //       }
-          
-    //       const newAllTasks = allTasks;
-    //       delete newAllTasks[task];
-    //       setAllTasks(newAllTasks);
-    //     }
 
-    //   }
-    //   );
-
+    })
 
   }
   // remove task individually
@@ -280,25 +254,19 @@ function App() {
     setAllTasks(newAllTasks)
     // setColumns(columns['all-tasks'].taskIds.filter(task => task !== taskId));
 
+
+
     for(let key in columns) {
-      if(columns[key].taskIds.includes(taskId)) {
-        const newTaskIds = columns[key].taskIds;
-        const index = newTaskIds.indexOf(taskId);
-        if (index > -1) {
-          newTaskIds.splice(index, 1); // 2nd parameter means remove one item only
+      let newIds = columns[key].taskIds.filter(task => task !== taskId)
+
+      setColumns(prev => ({
+        ...prev,
+        [key]: {
+          ...columns[key],
+          taskIds: newIds
         }
-        setColumns(prev => ({
-          ...prev,
-          key: {
-            ...columns[key],
-            taskIds: newTaskIds
-          }
-        }))
-      }
+      }))
     }
-
-
-
   }
   // edit task detail
   const handleEditTask = (taskId, content) => {
@@ -328,37 +296,37 @@ function App() {
   })
 
 
-  console.log(columns['all-tasks'])
+  
   },[])
   
-//   // fetch all tasks data
-//   useEffect(() => {
-//     // fetch data from local storage
-//     const data = localStorage.getItem('testing-task');
-//     // add the parsed data to allTasks
-//     setAllTasks(JSON.parse(data));
-//   // only fetch on page loaded
-// }, [])
+  // fetch all tasks data
+  useEffect(() => {
+    // fetch data from local storage
+    const data = localStorage.getItem('Tasks');
+    // add the parsed data to allTasks
+    setAllTasks(JSON.parse(data));
+  // only fetch on page loaded
+}, [])
 
-// // fetch all tasks list data
-// useEffect(() => {
-//     // fetch data from local storage
-//     const data = localStorage.getItem('testing-task-list');
-//     // add the parsed data to allTasks
-//     setAllTasksList(JSON.parse(data));
-// // only fetch on page loaded
-// }, [])
+// fetch all tasks list data
+useEffect(() => {
+    // fetch data from local storage
+    const data = localStorage.getItem('Lists');
+    // add the parsed data to allTasks
+    setColumns(JSON.parse(data));
+// only fetch on page loaded
+}, [])
 
 
-//   // store all tasks data
-// 	useEffect(() => {
-// 		localStorage.setItem('testing-task', JSON.stringify(allTasks))
-// 	}, [allTasks])
+  // store all tasks data
+	useEffect(() => {
+		localStorage.setItem('Tasks', JSON.stringify(allTasks))
+	}, [allTasks])
 
-//   // store all tasks list data
-// 	useEffect(() => {
-// 		localStorage.setItem('testing-task-list', JSON.stringify(allTasksList))
-// 	}, [allTasksList])
+  // store all tasks list data
+	useEffect(() => {
+		localStorage.setItem('Lists', JSON.stringify(columns))
+	}, [columns])
 
 
 
