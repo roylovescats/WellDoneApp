@@ -1,6 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-function TaskForm({ newTask, handleSubmit, handleChange}) {
+function TaskForm({ newTask, handleSubmitTask, handleChange, columnOrder, columns}) {
+
+    const [list, setList] = useState()
+
+    const handleSelect = e => {
+        setList(e.target.value)
+        console.log(list)
+    }
+
+
+    const handleSubmit= e => {
+        e.preventDefault();
+        handleSubmitTask(list)
+    }
+
+
     return (
         <div id="taskForm" className="col-auto d-lg-block">
 
@@ -52,11 +67,14 @@ function TaskForm({ newTask, handleSubmit, handleChange}) {
                             className="mb-4"
                             name="lists"
                             id="lists"
-                            value={newTask.list || "not selected"}
-                            onChange={handleChange}
+                            value={list}
+                            onChange={handleSelect}
+                            required
                         >
-                            <option value="not selected"  disabled>not selected</option>
-                            <option value="Projects" disabled>Projects</option>
+
+                            <option value="" disabled selected>not selected</option>
+                            {columnOrder.map(column => <option value={columns[column].id} key={column}>{columns[column].title}</option>)}
+                            {/* <option value="Projects" disabled>Projects</option> */}
                         </select>
         
                         <input

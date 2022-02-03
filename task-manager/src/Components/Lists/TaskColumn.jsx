@@ -24,7 +24,7 @@ function TaskColumn({ column, index, allTasks }) {
     return (
 
         <Draggable
-            draggableId={column.id}
+            draggableId={column.id.toString()}
             index={index}
         >
             {provided => (
@@ -78,7 +78,9 @@ function TaskColumn({ column, index, allTasks }) {
              
                         <TaskList
                                 style={{
-                                    padding: 8
+                                    padding: 8,
+                                    overflow: 'scroll',
+                                    maxHeight: 400
                                 }}
                                 ref={provided.innerRef}
                         >

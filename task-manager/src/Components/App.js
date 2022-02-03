@@ -31,53 +31,39 @@ function App() {
 
 	// state of new task input
 	const [newTask, setNewTask] = useState({});
-  const [allTasks, setAllTasks] = useState({
-    'task-1': {
-      title: 'Fuck You',
-      id:'task-1',
-      done: false,
-      location: 'Home'
-    },
-    'task-2': {
-      title: 'Fuck Me',
-      id:'task-2',
-      done: false
-    }
-
-  });
+  const [allTasks, setAllTasks] = useState({});
 
   // lists for dnd
   // const [list, setList] = useState({})
   const [columns, setColumns] = useState({
     'all-tasks': {
       id: 'all-tasks',
-      taskIds: ['task-1', 'task-2']
-    },
-    'column-1': {
-      id: 'column-1',
-      title: 'To do',
-      taskIds: ['task-1', 'task-2'],
-    },
-    'column-2': {
-      id: 'column-2',
-      title: 'In Progress',
-      taskIds: [],
-    },
-    'column-3': {
-      id: 'column-3',
-      title: 'Done',
-      taskIds: [],
+      taskIds: []
     },
   })
-  const [columnOrder, setColumnOrder] = useState([
-    'column-1',
-    'column-2', 
-    'column-3'
-  ])
+  const [columnOrder, setColumnOrder] = useState([])
+
+
+  // add column
+  const handleAddColumn = () => {
+    const id = Date.now();
+    setColumns(prev => ({
+      ...prev,
+      [id]: {
+        id: id,
+        title: 'New List',
+        taskIds: [],
+      }
+    }))
+
+    setColumnOrder(prev => ([
+      ...prev,
+      id
+    ]))
+  }
 
 
   // reorder tasks order on drag end
-
   const onDragEnd = result => {
     const { destination, source, draggableId, type } = result;
 
@@ -188,9 +174,9 @@ function App() {
     console.log(allTasks)
 	};
   //submit new task
-	const handleSubmit = (event) => {
+	const handleSubmitTask = list => {
 		// prevent default action
-		event.preventDefault();
+		// event.preventDefault();
 
 			// shift new task in all tasks list (before previous task(s))
 			setAllTasks((prevAllTasks) => ({
@@ -205,6 +191,10 @@ function App() {
         'all-tasks': {
           ...columns['all-tasks'],
           taskIds: [...columns['all-tasks'].taskIds, newTask.id]
+        },
+        [list] : {
+          ...columns[list],
+          taskIds: [...columns[list].taskIds, newTask.id]
         }
       }))
 
@@ -295,38 +285,38 @@ function App() {
       })
   })
 
-
-  
   },[])
   
-  // fetch all tasks data
-  useEffect(() => {
-    // fetch data from local storage
-    const data = localStorage.getItem('Tasks');
-    // add the parsed data to allTasks
-    setAllTasks(JSON.parse(data));
-  // only fetch on page loaded
-}, [])
+//   // fetch all tasks data
+//   useEffect(() => {
+//     // fetch data from local storage
+//     const data = localStorage.getItem('Tasks');
+//     // add the parsed data to allTasks
+//     setAllTasks(JSON.parse(data));
+//   // only fetch on page loaded
+// }, [])
 
-// fetch all tasks list data
-useEffect(() => {
-    // fetch data from local storage
-    const data = localStorage.getItem('Lists');
-    // add the parsed data to allTasks
-    setColumns(JSON.parse(data));
-// only fetch on page loaded
-}, [])
+// // fetch all tasks list data
+// useEffect(() => {
+//     // fetch data from local storage
+//     const data = localStorage.getItem('Lists');
+//     // add the parsed data to allTasks
+//     setColumns(JSON.parse(data));
+// // only fetch on page loaded
+// }, [])
 
 
-  // store all tasks data
-	useEffect(() => {
-		localStorage.setItem('Tasks', JSON.stringify(allTasks))
-	}, [allTasks])
+//   // store all tasks data
+// 	useEffect(() => {
+// 		localStorage.setItem('Tasks', JSON.stringify(allTasks))
+// 	}, [allTasks])
 
-  // store all tasks list data
-	useEffect(() => {
-		localStorage.setItem('Lists', JSON.stringify(columns))
-	}, [columns])
+//   // store all tasks list data
+// 	useEffect(() => {
+// 		localStorage.setItem('Lists', JSON.stringify(columns))
+// 		localStorage.setItem('Tasks', JSON.stringify(allTasks))
+
+// 	}, [columns])
 
 
 
@@ -361,6 +351,7 @@ useEffect(() => {
                 columnOrder={columnOrder}
                 onDragEnd={onDragEnd}
                 allTasks={allTasks}
+                handleAddColumn={handleAddColumn}
               />
 
 
@@ -370,8 +361,11 @@ useEffect(() => {
 
           <TaskForm
             newTask={newTask}
-            handleSubmit={handleSubmit}
+            handleSubmitTask={handleSubmitTask}
             handleChange={handleChange}
+            columnOrder={columnOrder}
+            columns={columns}
+
           />
 
 

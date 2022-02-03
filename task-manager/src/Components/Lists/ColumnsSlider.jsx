@@ -12,7 +12,14 @@ const Container = styled.div`
 `
 
 
-function ColumnsSlider({ columns, columnOrder, onDragEnd, allTasks }) {
+function ColumnsSlider({ columns, columnOrder, onDragEnd, allTasks, handleAddColumn }) {
+    const handleClick = e => {
+        e.preventDefault();
+        handleAddColumn()
+    }
+
+
+
     return (
         <div className="slider w-100 h-100">
 
@@ -60,7 +67,7 @@ function ColumnsSlider({ columns, columnOrder, onDragEnd, allTasks }) {
 
                     {/* list Draggable handle */}
                     <div style={{width: "100%", height: 48, position: "relative"}}>
-                        <button className="w-100 btn bg-0 h-100" style={{color: "white", position: "absolute", top: 0}}>+ NEW LIST</button>
+                        <button onClick={handleClick} className="w-100 btn bg-0 h-100" style={{color: "white", position: "absolute", top: 0}}>+ NEW LIST</button>
                     </div>
 
                  
