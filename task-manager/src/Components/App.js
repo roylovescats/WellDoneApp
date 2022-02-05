@@ -1,25 +1,35 @@
 import { useState, useEffect } from 'react';
 
+// import JQuery
 import $ from 'jquery';
+
+import {v4 as uuid} from "uuid"; 
 
 // import styled components
 import styled from'styled-components';
-// import bootstrap
+// bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
-
+// custom stylesheet
 import './App.css';
 
 
-// import Toggle Task Form Button
+// import Task Form Switch Button
 import TaskFormToggle from './TaskFormToggle';
 
-//import Sidebar
+// import Sidebar
 import SideBar from './SideBar';
+// import nav bar for moblie
+import MobileNav from './MobileNav';
+
+// import section 1 - Overview
 import Overview from './Overview/Overview';
-import TaskForm from './TaskForm';
+
+// import section 2 - Lists Page
 import ListsPage from './Lists/ListsPage';
 
-import MobileNav from './MobileNav';
+
+import TaskForm from './TaskForm';
+
 
 
 const MainRow = styled.div`
@@ -29,18 +39,38 @@ const MainRow = styled.div`
 
 function App() {
 
-	// state of new task input
+	// new task input state
 	const [newTask, setNewTask] = useState({});
+
+    // new task form input
+	const handleChange = ({ target }) => {
+		// insert corresponding name and input as porperty [name] & value in the newTask object
+		const { name, value } = target;
+    // generate id for each task
+    const id = uuid();
+
+		setNewTask((prevNewTask) => ({
+			...prevNewTask,
+        [name]: value,
+        id: id,
+        done: false,
+		})
+		);
+	};
+
+  // all tasks data storage
   const [allTasks, setAllTasks] = useState({});
 
-  // lists for dnd
-  // const [list, setList] = useState({})
+  // task columns storage
   const [columns, setColumns] = useState({
+    // storing all tasks order for section 1 - Overview
     'all-tasks': {
       id: 'all-tasks',
       taskIds: []
     },
   })
+
+  // task column order (for drag and drop)
   const [columnOrder, setColumnOrder] = useState([])
 
 
@@ -62,29 +92,29 @@ function App() {
     ]))
   }
 
-    // change list name
-    const handleEditListTitle = (id, title) => {
-      if(title.length === 0) {
-        setColumns(prev => ({
-          ...prev,
-          [id]: {
-            ...columns[id],
-            title: 'unnamed list'
-          }
-        }))
-        return;
-      }
-
+  // change list name
+  const handleEditListTitle = (id, title) => {
+    if(title.length === 0) {
       setColumns(prev => ({
         ...prev,
         [id]: {
           ...columns[id],
-          title: title
+          title: 'unnamed list'
         }
       }))
-
-      // console.log(columns[id].title)
+      return;
     }
+
+    setColumns(prev => ({
+      ...prev,
+      [id]: {
+        ...columns[id],
+        title: title
+      }
+    }))
+
+    // console.log(columns[id].title)
+  }
 
 
   // reorder tasks order on drag end
@@ -180,23 +210,7 @@ function App() {
 
   }
 
-  // new task form input
-	const handleChange = ({ target }) => {
-		// insert corresponding name and input as porperty [name] & value in the newTask object
-		const { name, value } = target;
-    // generate id for each task
-    const id = Date.now();
 
-		setNewTask((prevNewTask) => ({
-			...prevNewTask,
-        [name]: value,
-        id: id,
-        done: false,
-		})
-		);
-
-    console.log(allTasks)
-	};
   //submit new task
 	const handleSubmitTask = list => {
 		// prevent default action
@@ -208,7 +222,6 @@ function App() {
         [newTask.id]: newTask,
       })
 			);
-
 
       setColumns(prev => ({
         ...prev,
@@ -235,8 +248,7 @@ function App() {
     const newArr = columns['all-tasks'].taskIds.slice();
 
     for(let key in columns) {
-      let newIds = columns[key].taskIds.filter(task => allTasks[task].done === false
-      );
+      let newIds = columns[key].taskIds.filter(task => allTasks[task].done === false);
       setColumns(prev => ({
         ...prev,
         [key]: {
@@ -262,25 +274,29 @@ function App() {
   const handleRemoveTask = taskId => {
     const newArr = columns['all-tasks'].taskIds.slice();
 
-    for(let key in columns) {
-      let newIds = columns[key].taskIds.filter(task => allTasks[task].id !== taskId);
-      setColumns(prev => ({
-        ...prev,
-        [key]: {
-          ...columns[key],
-          taskIds: newIds
-        }
-      }))
-      
-    }
-
-    newArr.forEach(task => {
-      if (allTasks[task].id = taskId) {
-        const newAllTasks = {...allTasks};
-        delete newAllTasks[task]
-        setAllTasks(newAllTasks)
+      for(let key in columns) {
+        let newIds = columns[key].taskIds.filter(task => allTasks[task].id !== taskId);
+        setColumns(prev => ({
+          ...prev,
+          [key]: {
+            ...columns[key],
+            taskIds: newIds
+          }
+        }))
+        
       }
-    })
+
+        newArr.forEach(task => {
+          if (allTasks[task].id === taskId) {
+            const newAllTasks = {...allTasks};
+            delete newAllTasks[task]
+            setAllTasks(newAllTasks)
+          }
+        
+        })
+        
+
+
   }
   // edit task detail
   const handleEditTask = (taskId, content) => {
@@ -308,14 +324,13 @@ function App() {
 
   // Toggle add task form
   useEffect(() => {
-    $(document).ready(function() {
       $('#addTask').on("click", function() {
           $("#taskForm").toggleClass("active");
           $("#addBtn").toggleClass("active");
-      })
+      
   })
 
-  },[])
+  })
   
 //   // fetch all tasks data
 //   useEffect(() => {

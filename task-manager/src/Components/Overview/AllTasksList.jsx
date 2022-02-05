@@ -30,7 +30,7 @@ function AllTaskList({ columns, onDragEnd, allTasks, handleEditTask, handleToggl
                             ref={provided.innerRef}
                             // isDraggingOver={snapshot.isDraggingOver}    
                         >
-                            {columns['all-tasks'].taskIds.map((taskId, index) => 
+                            {Object.keys(allTasks).length > 0 && columns['all-tasks'].taskIds.map((taskId, index) => 
                                 <Task 
                                     key={allTasks[taskId].id}
                                     index={index}
