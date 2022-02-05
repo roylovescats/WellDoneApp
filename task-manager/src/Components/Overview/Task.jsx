@@ -1,33 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 
 import styled from 'styled-components';
 
 
-
 const TaskCard = styled.div`
-    border-radius: 12;
-    margin-bottom: 8
+    border-radius: 5px;
+    margin-bottom: 8px;
+    background: white;
+    padding: 8px 1rem;
+    font-size: 30px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.15);
 `
 
-function Task({ allTasks, task, index }) {
-
-    const [content, setContent] = useState(task);
+function Task({ task, index, handleEditTask, handleToggleDone, handleRemoveTask }) {
 
     const details = [];
 
-    if (content.date) {
-        details.push(content.date)
+    if (task.date) {
+        details.push(task.date)
     }
-    if (content.time) {
-        details.push(content.time)
+    if (task.time) {
+        details.push(task.time)
     }
-    if (content.location) {
-        details.push(content.location)
+    if (task.location) {
+        details.push(task.location)
     }
 
     const [updateTask, setUpdateTask] = useState(task);
       // inputing form
+
+
+
 	const handleChange = ({ target }) => {
 		// insert corresponding name and input as porperty [name] & value in the newTask object
 		const { name, value } = target;
@@ -39,28 +43,31 @@ function Task({ allTasks, task, index }) {
     console.log(task)
 	};
 
+    const handleUnsave = (e) => {
+        e.preventDefault();
+        setUpdateTask(task)
+        setEdit(!edit)
+    }
+
     const [edit, setEdit] = useState(false);
+
 
     const handleSubmit = (e) => {
         e.preventDefault();
-            setContent(updateTask);
-            setEdit(!edit)
-            allTasks[task.id] = updateTask
-            console.log(task)
+        handleEditTask(task.id, updateTask)
+        setEdit(!edit)
     }
 
-    const handleDone = () => {
-        setContent(prev => ({
-            ...prev,
-            done: !content.done
-        }))
-        allTasks[task.id].done = !content.done
+    const handleClick = (e) => {
+        e.preventDefault();
+        handleToggleDone(task.id)   
     }
 
+    const handleRemove = e => {
+        e.preventDefault();
+        handleRemoveTask(task.id)
+    }
 
-    	useEffect(() => {
-		localStorage.setItem('testing-task-list', JSON.stringify(allTasks))
-	}, [content])
 
     return (
         <Draggable
@@ -72,24 +79,21 @@ function Task({ allTasks, task, index }) {
             ref={provided.innerRef}
             {...provided.draggableProps}
             {...provided.dragHandleProps}
-            className="task-item accordion-item"
-            style={{
-                borderRadius: 12,
-                marginBottom: 8
-            }}
+            className="accordion-item"
         >
             {/* start of upper row */}
             <div className="row">
 
                 {/* Done icon */}
                 <div className="col-1 m-auto">
-                    <i
-                        onClick={handleDone}
+                    <i  type="button"
+                        name="done"
+                        onClick={handleClick}
                         // onClick={() => {task.done = !task.done}}
                         className="m-auto d-block fas fa-check p-1"
                         style={{
                             fontSize: 16,
-                            color: content.done ? '#70bbae' : 'lightGrey',
+                            color: task.done ? '#70bbae' : 'lightGrey',
                         }}
                     >
                     </i>
@@ -107,7 +111,7 @@ function Task({ allTasks, task, index }) {
 
                     {edit ?
                     <input
-                    className='w-100'
+                        className='w-100'
                         style={{fontSize:22, lineHeight:0, background: 'rgb(240, 240, 240)', border: 0, height: 33, padding: 0, position: 'absolute', top: 0}}
                         type="text"
                         placeholder='Title'
@@ -120,11 +124,11 @@ function Task({ allTasks, task, index }) {
                     // onClick={() => setEdit(!edit)}
                     style={{
                         fontSize: 22,
-                        textDecoration: content.done ? "line-through" : "none",
-                        color: content.done ? "lightgrey" : "inherit"
+                        textDecoration: task.done ? "line-through" : "none",
+                        color: task.done ? "lightgrey" : "inherit"
                     }}
                     >
-                        {content.title}
+                        {task.title}
                         {/* Feed the cats */}
                     </p>
                 }
@@ -157,12 +161,27 @@ function Task({ allTasks, task, index }) {
                 }
 
                 {/* delete task button */}
-                <button className="col-1  d-flex align-items-center justify-content-center">
-                    <svg width="16" height="16" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7.04688 10.3125H14.9531C15.0477 10.3125 15.125 10.3898 15.125 10.4844V11.5156C15.125 11.6102 15.0477 11.6875 14.9531 11.6875H7.04688C6.95234 11.6875 6.875 11.6102 6.875 11.5156V10.4844C6.875 10.3898 6.95234 10.3125 7.04688 10.3125Z" fill="black" />
-                        <path d="M11 1.375C16.3152 1.375 20.625 5.68477 20.625 11C20.625 16.3152 16.3152 20.625 11 20.625C5.68477 20.625 1.375 16.3152 1.375 11C1.375 5.68477 5.68477 1.375 11 1.375ZM11 18.9922C15.4129 18.9922 18.9922 15.4129 18.9922 11C18.9922 6.58711 15.4129 3.00781 11 3.00781C6.58711 3.00781 3.00781 6.58711 3.00781 11C3.00781 15.4129 6.58711 18.9922 11 18.9922Z" fill="black" />
-                    </svg>
-                </button>
+                {edit ?
+                    <button 
+                        className="col-1  d-flex align-items-center justify-content-center"
+                        onClick={handleUnsave}    
+                    >
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path fillRule="evenodd" clipRule="evenodd" d="M13.854 2.14598C13.9005 2.19242 13.9375 2.2476 13.9627 2.30834C13.9879 2.36909 14.0009 2.43421 14.0009 2.49998C14.0009 2.56575 13.9879 2.63087 13.9627 2.69161C13.9375 2.75236 13.9005 2.80753 13.854 2.85398L2.85396 13.854C2.76007 13.9479 2.63274 14.0006 2.49996 14.0006C2.36718 14.0006 2.23985 13.9479 2.14596 13.854C2.05207 13.7601 1.99933 13.6328 1.99933 13.5C1.99933 13.3672 2.05207 13.2399 2.14596 13.146L13.146 2.14598C13.1924 2.09941 13.2476 2.06247 13.3083 2.03727C13.3691 2.01206 13.4342 1.99908 13.5 1.99908C13.5657 1.99908 13.6308 2.01206 13.6916 2.03727C13.7523 2.06247 13.8075 2.09941 13.854 2.14598V2.14598Z" fill="black"/>
+                            <path fillRule="evenodd" clipRule="evenodd" d="M2.14598 2.14598C2.09941 2.19242 2.06247 2.2476 2.03727 2.30834C2.01206 2.36909 1.99908 2.43421 1.99908 2.49998C1.99908 2.56575 2.01206 2.63087 2.03727 2.69161C2.06247 2.75236 2.09941 2.80753 2.14598 2.85398L13.146 13.854C13.2399 13.9479 13.3672 14.0006 13.5 14.0006C13.6328 14.0006 13.7601 13.9479 13.854 13.854C13.9479 13.7601 14.0006 13.6328 14.0006 13.5C14.0006 13.3672 13.9479 13.2399 13.854 13.146L2.85398 2.14598C2.80753 2.09941 2.75236 2.06247 2.69161 2.03727C2.63087 2.01206 2.56575 1.99908 2.49998 1.99908C2.43421 1.99908 2.36909 2.01206 2.30834 2.03727C2.2476 2.06247 2.19242 2.09941 2.14598 2.14598V2.14598Z" fill="black"/>
+                        </svg>
+                    </button>
+                        :
+                    <button 
+                        onClick={handleRemove}
+                        className="col-1  d-flex align-items-center justify-content-center"
+                    >
+                        <svg width="16" height="16" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7.04688 10.3125H14.9531C15.0477 10.3125 15.125 10.3898 15.125 10.4844V11.5156C15.125 11.6102 15.0477 11.6875 14.9531 11.6875H7.04688C6.95234 11.6875 6.875 11.6102 6.875 11.5156V10.4844C6.875 10.3898 6.95234 10.3125 7.04688 10.3125Z" fill="black" />
+                            <path d="M11 1.375C16.3152 1.375 20.625 5.68477 20.625 11C20.625 16.3152 16.3152 20.625 11 20.625C5.68477 20.625 1.375 16.3152 1.375 11C1.375 5.68477 5.68477 1.375 11 1.375ZM11 18.9922C15.4129 18.9922 18.9922 15.4129 18.9922 11C18.9922 6.58711 15.4129 3.00781 11 3.00781C6.58711 3.00781 3.00781 6.58711 3.00781 11C3.00781 15.4129 6.58711 18.9922 11 18.9922Z" fill="black" />
+                        </svg>
+                    </button>
+                }
             </div>
             {/* end of upper row */}
 

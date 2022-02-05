@@ -11,6 +11,7 @@
 
 .App.theme {
   /* background-image: url('./asset/photo-1526109753379-32666ca7fe2f.jpg'); */
+  background-image: url('./asset/JohnLoren2.jpg');
 }
 
 
@@ -113,6 +114,12 @@ main {
   filter: drop-shadow(0.5px 0px 1px rgba(0, 0, 0, 0.25));
 }
 
+@media only screen and (max-width: 1200px) {
+  #sidebar {
+    width: 200px;
+  }
+}
+
 #sidebar.active { /* sidebar show */
   width: 65px !important;
 }
@@ -183,6 +190,16 @@ nav p.hidden {
   overflow: hidden;
 }
 
+@media only screen and (max-width: 768px) {
+  #Home {
+    padding: 0 !important;
+  }
+
+  .all-tasks {
+    border-radius: 50px;
+  }
+}
+
 .search-bar {
   background: #F3F3F3;
   border-radius: 19px;
@@ -247,6 +264,13 @@ nav p.hidden {
   background: 0;
 }
 
+@media only screen and (max-width: 768px) {
+
+  .all-tasks {
+    border-radius: 25px 25px 0 0;
+  }
+}
+
 
 .task-item {
   border-radius: 12px;
@@ -279,16 +303,16 @@ nav p.hidden {
   /* position: absolute; */
   /* top: 0;
   left: 0; */
+  /* display: grid; */
+  /* grid-template-columns: repeat(7, 1fr); */
+  /* pointer-events: none; */
+  /* flex-direction: row; */
 
   margin-left: 2.5rem;
   height: 100%;
   width: 200%;
-  /* display: grid; */
-  /* grid-template-columns: repeat(7, 1fr); */
   gap: 5px;
-  /* pointer-events: none; */
   transition: 0s ease-in;
-  /* flex-direction: row; */
   display: flex;
 }
 
@@ -310,8 +334,25 @@ nav p.hidden {
   width:calc(200px + 10vw); 
 }
 
+
+
 #taskForm.active {
   margin-right: 0;
+}
+
+@media only screen and (max-width: 1400px) {
+  #taskForm.active {
+    position: fixed;
+    right: 0;
+    height: 100vh;
+    z-index: 999;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  #taskForm.active {
+    width: 85vw;
+  }
 }
 
 form input, select {

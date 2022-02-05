@@ -1,7 +1,7 @@
 import React from "react";
 import "./Hamburger.css";
 
-export class Hamburger extends React.Component {
+export default class Hamburger extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

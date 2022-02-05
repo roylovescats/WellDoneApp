@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+
+
+import $ from 'jquery';
+
 import styled from 'styled-components';
-import AllTaskList from './AllTaskList';
+import AllTasksList from './AllTasksList';
+import EmptyProgress from './EmptyProgress';
+import EmptyList from './EmptyList';
+
 
 //import Searcg bar component
 import SearchBar from './SearchBar';
-
-import Task from './Task'
-import TaskList from './TaskList';
-
-import { DragDropContext } from 'react-beautiful-dnd';
-
+import ProgressBar from './ProgressBar';
 
 const Container = styled.div`
     height: 100vh; 
@@ -47,11 +49,11 @@ const OverviewText = styled.div`
     left:50%;
     position: absolute; 
     font-size: clamp(25px, 1.5vw, 30px);
-
 `
 
-function HomePage({allTasksList, onDragEnd, allTasks, handleRemoveDone, handleEditTask, handleToggleDone, handleRemoveTask }) {
+function Overview({columns, onDragEnd, allTasks, handleRemoveDone, handleEditTask, handleToggleDone, handleRemoveTask }) {
 
+    
     return (
         <Container className='col-12' id="Home">
             <div className="row h-100">
@@ -70,17 +72,19 @@ function HomePage({allTasksList, onDragEnd, allTasks, handleRemoveDone, handleEd
                             display: 'flex',
                             justifyContent: 'space-between'}}
                         >       
-                                <OverviewBox>
+                                <OverviewBox id="fuck" >
                                     {/* date */}
-                                    <OverviewText >
-                                      FEB 11 
+                                    <OverviewText id="damn"
+                                    // style={{height: "100%", width: "100%"}}
+                                    >
+                                      <p id="fittext2">MON 31</p>
                                     </OverviewText>
                                 </OverviewBox>
 
                                 <OverviewBox>
                                     {/* weekday */}
                                     <OverviewText >
-                                      FRI
+                                      1
                                     </OverviewText>
                                 </OverviewBox>
                                 <OverviewBox>
@@ -126,9 +130,18 @@ function HomePage({allTasksList, onDragEnd, allTasks, handleRemoveDone, handleEd
                     >   
 
                         <div className="w-100 pinned-list px-3 pt-4" style={{height: "100%"}}>
+
+                            
                             {/* start of list container */}
-                            <div className="row pt-4 h-100" style={{overflow: "scroll"}}>
-                                <div className="col-12">
+                            <div className="row h-100" style={{overflow: "scroll"}}>
+                                <div className="col-12 w-100" style={{position: 'relative'}}>
+                                    
+                                    {Object.keys(allTasks).length === 0 ?
+                                        <EmptyProgress />   
+                                        :
+                                        <ProgressBar />
+                                    }
+
                                         {/* list progress bar component */}
                                 </div>
                             </div>
@@ -143,7 +156,7 @@ function HomePage({allTasksList, onDragEnd, allTasks, handleRemoveDone, handleEd
 
 
                 {/* Start of right column */}
-                <div className="right-column col-md-7 pb-5 pt-4 ps-4 pe-5">
+                <div className="right-column col-md-7 pb-md-5 pt-4 ps-md-4 pe-md-5">
 
                         {/* start of title row*/}
                         <div className="row mx-4" style={{height: "10%"}}>
@@ -151,38 +164,44 @@ function HomePage({allTasksList, onDragEnd, allTasks, handleRemoveDone, handleEd
                         </div>
                         {/* end of title row*/}
                         
-                    <div className="mx-3 all-tasks" style={{height: "90%"}}>
-                        <div className="row py-4 px-5" style={{height: "10%"}}>
+                    <div className="mx-md-3 all-tasks" style={{height: "90%", position: 'relative'}}>
+                        
+                        {columns['all-tasks'].taskIds.length === 0 ? 
+                            <EmptyList />
+                        : 
+                        <>
+                            <div className="row py-4 px-5" style={{height: "10%"}}>
 
-                        <SearchBar className="mx-5"/>
+                            <SearchBar className="mx-5"/>
 
-                        </div>
-                        {/* start of function row */}
-                        <div className="row px-5" style={{height: "10%"}}>
-                            <div className="col-4 my-auto">
-                                <p style={{fontSize: 20}}>
-                                    Sort by
-                                </p>
                             </div>
-                            <div className="col my-auto text-end">
-                                <a href="#" style={{fontSize: 20}}
-                                    onClick={handleRemoveDone}
-                                >
-                                    Remove done
-                                </a>
+                            {/* start of function row */}
+                            <div className="row px-5" style={{height: "10%"}}>
+                                <div className="col-4 my-auto">
+                                    <p style={{fontSize: 20}}>
+                                        Sort by
+                                    </p>
+                                </div>
+                                <div className="col my-auto text-end">
+                                    <a href="#" style={{fontSize: 20}}
+                                        onClick={handleRemoveDone}
+                                    >
+                                        Remove done
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                        {/* end of function row */}
+                            {/* end of function row */}
 
-
-                            <AllTaskList
-                                allTasks={allTasks} 
-                                allTasksList={allTasksList} 
+                            <AllTasksList
+                                allTasks={allTasks}
+                                columns={columns}
                                 onDragEnd={onDragEnd} 
                                 handleEditTask={handleEditTask}
                                 handleToggleDone={handleToggleDone}
                                 handleRemoveTask={handleRemoveTask}
                             />
+                        </>
+}
 
 
                     </div>
@@ -203,4 +222,4 @@ function HomePage({allTasksList, onDragEnd, allTasks, handleRemoveDone, handleEd
     );
 }
 
-export default HomePage;
+export default Overview;
