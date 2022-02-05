@@ -67,12 +67,12 @@ function TaskForm({ newTask, handleSubmitTask, handleChange, columnOrder, column
                             className="mb-4"
                             name="lists"
                             id="lists"
-                            value={list}
+                            value={list || ''}
                             onChange={handleSelect}
                             required
                         >
 
-                            <option value="" disabled selected>not selected</option>
+                            <option value="" disabled >not selected</option>
                             {columnOrder.map(column => <option value={columns[column].id} key={column}>{columns[column].title}</option>)}
                             {/* <option value="Projects" disabled>Projects</option> */}
                         </select>

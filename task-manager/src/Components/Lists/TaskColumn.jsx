@@ -1,4 +1,4 @@
-
+import React, { useState } from 'react';
 import TaskCard from './TaskCard';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 
@@ -19,7 +19,18 @@ const TaskList = styled.div`
     border-bottom-rightRadius: 3
 `
 
-function TaskColumn({ column, index, allTasks }) {
+function TaskColumn({ column, index, allTasks, handleEditListTitle  }) {
+
+
+    const [title, setTitle] = useState(column.title)
+
+    const handleChange = e => {
+        setTitle(e.target.value)
+        handleEditListTitle(column.id, e.target.value)
+    }
+
+
+    const [edit, setEdit] = useState(false);
 
     return (
 
@@ -34,9 +45,54 @@ function TaskColumn({ column, index, allTasks }) {
                     {...provided.draggableProps}
                     ref={provided.innerRef}
                 >
+
+                    <div style={{
+                        height:27.59,
+                        marginBottom: 8,
+                        position: 'relative'
+                        }}
+
+                    >
+
+
+                    {edit ?
+                        <input 
+                            value={title}
+                            name="title"
+                            onChange={handleChange}
+                            onBlur={() => setEdit(!edit)}
+                            style={{
+                                fontSize: 23,
+                                // marginBottom: ".5rem",
+                                lineHeight: 0,
+                                background: 'lightgrey',
+                                border: 0,
+                                fontWeight: 600,
+                                position: 'absolute',
+                                top: -5,
+                                left: -2
+                            }}
+                        />
+                    :
+                    <h3 
+                            onClick={() => setEdit(!edit)}
+
+                            style={{
+
+                                position: 'absolute',
+                                top: 0
+                            }}
+                    >
+                        {column.title}
+                    </h3>
+                    }
+
+
+
+
+                    </div>
+
                     {/* Task list Title */}
-                    {/* <h3>PROJECT</h3> */}
-                    <h3>{column.title}</h3>
 
                     {/* Task list Container */}
                     <div 
@@ -68,7 +124,7 @@ function TaskColumn({ column, index, allTasks }) {
 
 
                         <Droppable
-                            droppableId={column.id}
+                            droppableId={column.id.toString()}
                             type="tasks"
                         >
                             {(provided, snapshot) => (

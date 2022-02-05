@@ -62,6 +62,30 @@ function App() {
     ]))
   }
 
+    // change list name
+    const handleEditListTitle = (id, title) => {
+      if(title.length === 0) {
+        setColumns(prev => ({
+          ...prev,
+          [id]: {
+            ...columns[id],
+            title: 'unnamed list'
+          }
+        }))
+        return;
+      }
+
+      setColumns(prev => ({
+        ...prev,
+        [id]: {
+          ...columns[id],
+          title: title
+        }
+      }))
+
+      // console.log(columns[id].title)
+    }
+
 
   // reorder tasks order on drag end
   const onDragEnd = result => {
@@ -224,8 +248,6 @@ function App() {
     }
 
     newArr.forEach(task => {
-
-
       if (allTasks[task].done) {
         const newAllTasks = {...allTasks};
         delete newAllTasks[task]
@@ -238,17 +260,10 @@ function App() {
   }
   // remove task individually
   const handleRemoveTask = taskId => {
-
-    const newAllTasks = allTasks;
-    delete newAllTasks[taskId]
-    setAllTasks(newAllTasks)
-    // setColumns(columns['all-tasks'].taskIds.filter(task => task !== taskId));
-
-
+    const newArr = columns['all-tasks'].taskIds.slice();
 
     for(let key in columns) {
-      let newIds = columns[key].taskIds.filter(task => task !== taskId)
-
+      let newIds = columns[key].taskIds.filter(task => allTasks[task].id !== taskId);
       setColumns(prev => ({
         ...prev,
         [key]: {
@@ -256,7 +271,16 @@ function App() {
           taskIds: newIds
         }
       }))
+      
     }
+
+    newArr.forEach(task => {
+      if (allTasks[task].id = taskId) {
+        const newAllTasks = {...allTasks};
+        delete newAllTasks[task]
+        setAllTasks(newAllTasks)
+      }
+    })
   }
   // edit task detail
   const handleEditTask = (taskId, content) => {
@@ -275,6 +299,12 @@ function App() {
         }
       }))
   }
+
+
+
+
+
+
 
   // Toggle add task form
   useEffect(() => {
@@ -352,6 +382,7 @@ function App() {
                 onDragEnd={onDragEnd}
                 allTasks={allTasks}
                 handleAddColumn={handleAddColumn}
+                handleEditListTitle={handleEditListTitle}
               />
 
 

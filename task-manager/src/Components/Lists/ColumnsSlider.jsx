@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import TaskColumn from './TaskColumn';
 
 import styled from 'styled-components';
@@ -12,7 +12,9 @@ const Container = styled.div`
 `
 
 
-function ColumnsSlider({ columns, columnOrder, onDragEnd, allTasks, handleAddColumn }) {
+function ColumnsSlider({ columns, columnOrder, onDragEnd, allTasks, handleAddColumn, handleEditListTitle }) {
+
+
     const handleClick = e => {
         e.preventDefault();
         handleAddColumn()
@@ -42,7 +44,7 @@ function ColumnsSlider({ columns, columnOrder, onDragEnd, allTasks, handleAddCol
                 // isDraggingOver={snapshot.isDraggingOver}    
             >
                 {columnOrder.map((columnId, index) => 
-                    <TaskColumn key={columnId} column={columns[columnId]} index={index} allTasks={allTasks}/>
+                    <TaskColumn key={columnId} column={columns[columnId]} index={index} allTasks={allTasks} handleEditListTitle ={handleEditListTitle} />
                 )}
                 {provided.placeholder}
             </Container>

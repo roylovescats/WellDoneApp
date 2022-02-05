@@ -111,7 +111,7 @@ function Task({ task, index, handleEditTask, handleToggleDone, handleRemoveTask 
 
                     {edit ?
                     <input
-                    className='w-100'
+                        className='w-100'
                         style={{fontSize:22, lineHeight:0, background: 'rgb(240, 240, 240)', border: 0, height: 33, padding: 0, position: 'absolute', top: 0}}
                         type="text"
                         placeholder='Title'
