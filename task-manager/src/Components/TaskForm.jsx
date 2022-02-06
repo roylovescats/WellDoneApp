@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function TaskForm({ newTask, handleSubmitTask, handleChange, columnOrder, columns}) {
+function TaskForm({ newTask, handleSubmitTask, handleChange, listOrder, lists}) {
 
     const [list, setList] = useState()
 
@@ -73,7 +73,7 @@ function TaskForm({ newTask, handleSubmitTask, handleChange, columnOrder, column
                         >
 
                             <option value="" disabled >not selected</option>
-                            {columnOrder.map(column => <option value={columns[column].id} key={column}>{columns[column].title}</option>)}
+                            {listOrder.map(column => <option value={lists[column].id} key={column}>{lists[column].title}</option>)}
                             {/* <option value="Projects" disabled>Projects</option> */}
                         </select>
         

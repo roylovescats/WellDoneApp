@@ -12,7 +12,7 @@ const Container = styled.div`
 `
 
 
-function ColumnsSlider({ columns, columnOrder, onDragEnd, allTasks, handleAddColumn, handleEditListTitle }) {
+function ColumnsSlider({ lists, listOrder, onDragEnd, allTasks, handleAddColumn, handleEditListTitle }) {
 
 
     const handleClick = e => {
@@ -33,8 +33,8 @@ function ColumnsSlider({ columns, columnOrder, onDragEnd, allTasks, handleAddCol
             onDragEnd={onDragEnd}
         >
         <Droppable
-            type='columns'
-            droppableId="all-columns"
+            type='lists'
+            droppableId="all-lists"
             direction="horizontal"
         >
         {(provided, snapshot) => (
@@ -43,8 +43,8 @@ function ColumnsSlider({ columns, columnOrder, onDragEnd, allTasks, handleAddCol
                 ref={provided.innerRef}
                 // isDraggingOver={snapshot.isDraggingOver}    
             >
-                {columnOrder.map((columnId, index) => 
-                    <TaskColumn key={columnId} column={columns[columnId]} index={index} allTasks={allTasks} handleEditListTitle ={handleEditListTitle} />
+                {listOrder.map((columnId, index) => 
+                    <TaskColumn key={columnId} list={lists[columnId]} index={index} allTasks={allTasks} handleEditListTitle ={handleEditListTitle} />
                 )}
                 {provided.placeholder}
             </Container>
@@ -60,7 +60,7 @@ function ColumnsSlider({ columns, columnOrder, onDragEnd, allTasks, handleAddCol
                 <div    className="w-100" 
                         style={{background: "rgba(43, 43, 43, 0.377)",
                                 borderRadius: 2,
-                                flexDirection: "column",
+                                flexDirection: "list",
                                 display: "flex",
                                 borderRadius: 3,
                                 marginTop: 35.59

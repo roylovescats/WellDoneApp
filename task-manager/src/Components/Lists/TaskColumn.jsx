@@ -19,14 +19,14 @@ const TaskList = styled.div`
     border-bottom-rightRadius: 3
 `
 
-function TaskColumn({ column, index, allTasks, handleEditListTitle  }) {
+function TaskColumn({ list, index, allTasks, handleEditListTitle  }) {
 
 
-    const [title, setTitle] = useState(column.title)
+    const [title, setTitle] = useState(list.title)
 
     const handleChange = e => {
         setTitle(e.target.value)
-        handleEditListTitle(column.id, e.target.value)
+        handleEditListTitle(list.id, e.target.value)
     }
 
 
@@ -35,7 +35,7 @@ function TaskColumn({ column, index, allTasks, handleEditListTitle  }) {
     return (
 
         <Draggable
-            draggableId={column.id.toString()}
+            draggableId={list.id.toString()}
             index={index}
         >
             {provided => (
@@ -83,7 +83,7 @@ function TaskColumn({ column, index, allTasks, handleEditListTitle  }) {
                                 top: 0
                             }}
                     >
-                        {column.title}
+                        {list.title}
                     </h3>
                     }
 
@@ -124,7 +124,7 @@ function TaskColumn({ column, index, allTasks, handleEditListTitle  }) {
 
 
                         <Droppable
-                            droppableId={column.id.toString()}
+                            droppableId={list.id.toString()}
                             type="tasks"
                         >
                             {(provided, snapshot) => (
@@ -143,7 +143,7 @@ function TaskColumn({ column, index, allTasks, handleEditListTitle  }) {
 
                             {/* Task */}
                             {/* <TaskCard task={allTasks['task-1']}/> */}
-                            {column.taskIds.map((id, index) => 
+                            {list.taskIds.map((id, index) => 
                             <TaskCard index={index} key={allTasks[id].id} task={allTasks[id]}/>
 
                             )}

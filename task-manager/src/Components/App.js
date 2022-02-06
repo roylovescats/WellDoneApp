@@ -61,32 +61,41 @@ function App() {
   // all tasks data storage
   const [allTasks, setAllTasks] = useState({});
 
-  // task columns storage
-  const [columns, setColumns] = useState({
+  // task lists storage
+  const [lists, setLists] = useState({
     // storing all tasks order for section 1 - Overview
     'all-tasks': {
       id: 'all-tasks',
+      title: 'All Tasks',
       taskIds: []
     },
   })
 
   // task column order (for drag and drop)
-  const [columnOrder, setColumnOrder] = useState([])
+  const [listOrder, setListOrder] = useState([])
 
 
   // add column
   const handleAddColumn = () => {
-    const id = Date.now();
-    setColumns(prev => ({
+    const id = uuid();
+    setLists(prev => ({
       ...prev,
+
+      // new column 
       [id]: {
+        // column id
         id: id,
+        // column title
         title: 'New List',
+        // tasks belonged to the list
         taskIds: [],
       }
+
+
+
     }))
 
-    setColumnOrder(prev => ([
+    setListOrder(prev => ([
       ...prev,
       id
     ]))
@@ -95,25 +104,23 @@ function App() {
   // change list name
   const handleEditListTitle = (id, title) => {
     if(title.length === 0) {
-      setColumns(prev => ({
+      setLists(prev => ({
         ...prev,
         [id]: {
-          ...columns[id],
+          ...lists[id],
           title: 'unnamed list'
         }
       }))
       return;
     }
 
-    setColumns(prev => ({
+    setLists(prev => ({
       ...prev,
       [id]: {
-        ...columns[id],
+        ...lists[id],
         title: title
       }
     }))
-
-    // console.log(columns[id].title)
   }
 
 
@@ -136,22 +143,22 @@ function App() {
     }
 
 
-    if(type === 'columns') {
-      const newColumnOrder = Array.from(columnOrder);
+    if(type === 'lists') {
+      const newColumnOrder = Array.from(listOrder);
 
       newColumnOrder.splice(source.index, 1);
       newColumnOrder.splice(destination.index, 0, draggableId);
 
-      setColumnOrder(newColumnOrder);
+      setListOrder(newColumnOrder);
 
       return;
     }
 
 
     // declare starting point (check which droppable id the item is from)
-    const start = columns[source.droppableId];
+    const start = lists[source.droppableId];
     // declare destination point (check which droppable id the item is dropped)
-    const finish = columns[destination.droppableId];
+    const finish = lists[destination.droppableId];
 
     // if the items dropped as the same droppable id it belongs
     if(start === finish) {
@@ -165,7 +172,7 @@ function App() {
       newTaskIds.splice(destination.index, 0, draggableId);
       
       // update data in the column
-      setColumns(prev => ({
+      setLists(prev => ({
         ...prev,
         [start.id]: {
           ...start,
@@ -201,15 +208,14 @@ function App() {
       taskIds: finishTaskIds,
     };
 
-    // update columns data
-    setColumns(prev => ({
+    // update lists data
+    setLists(prev => ({
       ...prev,
       [newStart.id]: newStart,
       [newFinish.id]: newFinish,
     }))
 
   }
-
 
   //submit new task
 	const handleSubmitTask = list => {
@@ -223,15 +229,15 @@ function App() {
       })
 			);
 
-      setColumns(prev => ({
+      setLists(prev => ({
         ...prev,
         'all-tasks': {
-          ...columns['all-tasks'],
-          taskIds: [...columns['all-tasks'].taskIds, newTask.id]
+          ...lists['all-tasks'],
+          taskIds: [...lists['all-tasks'].taskIds, newTask.id]
         },
-        [list] : {
-          ...columns[list],
-          taskIds: [...columns[list].taskIds, newTask.id]
+        [list] : { 
+          ...lists[list],
+          taskIds: [...lists[list].taskIds, newTask.id]
         }
       }))
 
@@ -245,14 +251,14 @@ function App() {
 		e.preventDefault();
 
 
-    const newArr = columns['all-tasks'].taskIds.slice();
+    const newArr = lists['all-tasks'].taskIds.slice();
 
-    for(let key in columns) {
-      let newIds = columns[key].taskIds.filter(task => allTasks[task].done === false);
-      setColumns(prev => ({
+    for(let key in lists) {
+      let newIds = lists[key].taskIds.filter(task => allTasks[task].done === false);
+      setLists(prev => ({
         ...prev,
         [key]: {
-          ...columns[key],
+          ...lists[key],
           taskIds: newIds
         }
       }))
@@ -272,14 +278,14 @@ function App() {
   }
   // remove task individually
   const handleRemoveTask = taskId => {
-    const newArr = columns['all-tasks'].taskIds.slice();
+    const newArr = lists['all-tasks'].taskIds.slice();
 
-      for(let key in columns) {
-        let newIds = columns[key].taskIds.filter(task => allTasks[task].id !== taskId);
-        setColumns(prev => ({
+      for(let key in lists) {
+        let newIds = lists[key].taskIds.filter(task => allTasks[task].id !== taskId);
+        setLists(prev => ({
           ...prev,
           [key]: {
-            ...columns[key],
+            ...lists[key],
             taskIds: newIds
           }
         }))
@@ -326,11 +332,9 @@ function App() {
   useEffect(() => {
       $('#addTask').on("click", function() {
           $("#taskForm").toggleClass("active");
-          $("#addBtn").toggleClass("active");
-      
+          $("#addBtn").toggleClass("active");  
   })
-
-  })
+  }, [])
   
 //   // fetch all tasks data
 //   useEffect(() => {
@@ -346,7 +350,7 @@ function App() {
 //     // fetch data from local storage
 //     const data = localStorage.getItem('Lists');
 //     // add the parsed data to allTasks
-//     setColumns(JSON.parse(data));
+//     setLists(JSON.parse(data));
 // // only fetch on page loaded
 // }, [])
 
@@ -358,10 +362,10 @@ function App() {
 
 //   // store all tasks list data
 // 	useEffect(() => {
-// 		localStorage.setItem('Lists', JSON.stringify(columns))
+// 		localStorage.setItem('Lists', JSON.stringify(lists))
 // 		localStorage.setItem('Tasks', JSON.stringify(allTasks))
 
-// 	}, [columns])
+// 	}, [lists])
 
 
 
@@ -382,7 +386,7 @@ function App() {
             <div className="row" style={{height: '100vh'}}>
 
               <Overview
-                columns={columns}
+                lists={lists}
                 handleRemoveDone={handleRemoveDone}
                 onDragEnd={onDragEnd}
                 allTasks={allTasks}
@@ -392,8 +396,8 @@ function App() {
               />
 
               <ListsPage 
-                columns={columns}
-                columnOrder={columnOrder}
+                lists={lists}
+                listOrder={listOrder}
                 onDragEnd={onDragEnd}
                 allTasks={allTasks}
                 handleAddColumn={handleAddColumn}
@@ -409,8 +413,8 @@ function App() {
             newTask={newTask}
             handleSubmitTask={handleSubmitTask}
             handleChange={handleChange}
-            columnOrder={columnOrder}
-            columns={columns}
+            listOrder={listOrder}
+            lists={lists}
 
           />
 

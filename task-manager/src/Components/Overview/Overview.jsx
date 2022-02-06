@@ -51,7 +51,7 @@ const OverviewText = styled.div`
     font-size: clamp(25px, 1.5vw, 30px);
 `
 
-function Overview({columns, onDragEnd, allTasks, handleRemoveDone, handleEditTask, handleToggleDone, handleRemoveTask }) {
+function Overview({lists, onDragEnd, allTasks, handleRemoveDone, handleEditTask, handleToggleDone, handleRemoveTask }) {
 
     
     return (
@@ -166,7 +166,7 @@ function Overview({columns, onDragEnd, allTasks, handleRemoveDone, handleEditTas
                         
                     <div className="mx-md-3 all-tasks" style={{height: "90%", position: 'relative'}}>
                         
-                        {columns['all-tasks'].taskIds.length === 0 ? 
+                        {lists['all-tasks'].taskIds.length === 0 ? 
                             <EmptyList />
                         : 
                         <>
@@ -194,7 +194,7 @@ function Overview({columns, onDragEnd, allTasks, handleRemoveDone, handleEditTas
 
                             <AllTasksList
                                 allTasks={allTasks}
-                                columns={columns}
+                                lists={lists}
                                 onDragEnd={onDragEnd} 
                                 handleEditTask={handleEditTask}
                                 handleToggleDone={handleToggleDone}

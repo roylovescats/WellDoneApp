@@ -2,7 +2,7 @@ import React from 'react';
 
 import ColumnsSlider from './ColumnsSlider'
 
-function ListsPage({ columns, columnOrder, onDragEnd, allTasks, handleAddColumn, handleEditListTitle }) {
+function ListsPage({ lists, listOrder, onDragEnd, allTasks, handleAddColumn, handleEditListTitle }) {
     return (
         <div 
             className="col-12"
@@ -52,8 +52,8 @@ function ListsPage({ columns, columnOrder, onDragEnd, allTasks, handleAddColumn,
             >
 
                 <ColumnsSlider
-                    columns={columns}
-                    columnOrder={columnOrder}
+                    lists={lists}
+                    listOrder={listOrder}
                     onDragEnd={onDragEnd}
                     allTasks={allTasks}
                     handleAddColumn={handleAddColumn}

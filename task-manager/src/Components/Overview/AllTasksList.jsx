@@ -10,7 +10,7 @@ const TasksContainer = styled.div`
 `
 
 
-function AllTaskList({ columns, onDragEnd, allTasks, handleEditTask, handleToggleDone, handleRemoveTask }) {
+function AllTaskList({ lists, onDragEnd, allTasks, handleEditTask, handleToggleDone, handleRemoveTask }) {
 
     return (
         <DragDropContext onDragEnd={onDragEnd}>
@@ -30,7 +30,7 @@ function AllTaskList({ columns, onDragEnd, allTasks, handleEditTask, handleToggl
                             ref={provided.innerRef}
                             // isDraggingOver={snapshot.isDraggingOver}    
                         >
-                            {Object.keys(allTasks).length > 0 && columns['all-tasks'].taskIds.map((taskId, index) => 
+                            {Object.keys(allTasks).length > 0 && lists['all-tasks'].taskIds.map((taskId, index) => 
                                 <Task 
                                     key={allTasks[taskId].id}
                                     index={index}
