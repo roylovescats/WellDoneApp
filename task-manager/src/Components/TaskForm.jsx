@@ -1,18 +1,30 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
 
 function TaskForm({ newTask, handleSubmitTask, handleChange, listOrder, lists}) {
 
     const [list, setList] = useState()
 
+    useEffect(() => {
+        // if last chosen list was deleted
+        if(list !== 'addNewTaskList' && listOrder.includes(list) === false) {
+            // reset list state prevent adding task to deleted list
+            setList()
+        }
+    }, [listOrder])
+
+    // select list
     const handleSelect = e => {
         setList(e.target.value)
-        console.log(list)
     }
 
 
     const handleSubmit= e => {
         e.preventDefault();
         handleSubmitTask(list)
+        if(list === 'addNewTaskList') {
+            setList()
+        }
     }
 
 
@@ -63,6 +75,8 @@ function TaskForm({ newTask, handleSubmitTask, handleChange, listOrder, lists}) 
                             onChange={handleChange}
                         ></textarea>
                         <label htmlFor="lists">Lists</label>
+
+
                         <select
                             className="mb-4"
                             name="lists"
@@ -71,9 +85,12 @@ function TaskForm({ newTask, handleSubmitTask, handleChange, listOrder, lists}) 
                             onChange={handleSelect}
                             required
                         >
-
                             <option value="" disabled >not selected</option>
-                            {listOrder.map(column => <option value={lists[column].id} key={column}>{lists[column].title}</option>)}
+                            {listOrder.length === 0 ?
+                                <option value="addNewTaskList">+ New List...</option>
+                            :
+                                listOrder.map(column => <option value={lists[column].id} key={column}>{lists[column].title}</option>)
+                            }
                             {/* <option value="Projects" disabled>Projects</option> */}
                         </select>
         

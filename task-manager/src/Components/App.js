@@ -2,9 +2,8 @@ import { useState, useEffect } from 'react';
 
 // import JQuery
 import $ from 'jquery';
-
+// import uuid
 import {v4 as uuid} from "uuid"; 
-
 // import styled components
 import styled from'styled-components';
 // bootstrap
@@ -12,22 +11,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 // custom stylesheet
 import './App.css';
 
-
+// React Components
 // import Task Form Switch Button
 import TaskFormToggle from './TaskFormToggle';
-
 // import Sidebar
 import SideBar from './SideBar';
 // import nav bar for moblie
 import MobileNav from './MobileNav';
-
 // import section 1 - Overview
 import Overview from './Overview/Overview';
-
 // import section 2 - Lists Page
 import ListsPage from './Lists/ListsPage';
-
-
+// impot add Task Form
 import TaskForm from './TaskForm';
 
 
@@ -48,14 +43,17 @@ function App() {
 		const { name, value } = target;
     // generate id for each task
     const id = uuid();
-
-		setNewTask((prevNewTask) => ({
+    // add value to coresponding key
+		setNewTask(prevNewTask => ({
 			...prevNewTask,
         [name]: value,
         id: id,
+        // intial task done as false (unfinished task)
         done: false,
 		})
 		);
+
+    console.log(lists)
 	};
 
   // all tasks data storage
@@ -65,40 +63,57 @@ function App() {
   const [lists, setLists] = useState({
     // storing all tasks order for section 1 - Overview
     'all-tasks': {
+      // list id, also as the list key when storing in the lists
       id: 'all-tasks',
       title: 'All Tasks',
+      // storing task id in the array to manage the tasks order
       taskIds: []
     },
   })
 
-  // task column order (for drag and drop)
+  // task list order (for drag and drop)
   const [listOrder, setListOrder] = useState([])
 
 
-  // add column
-  const handleAddColumn = () => {
-    const id = uuid();
+  // add new list
+  const handleAddList = id => {
+
     setLists(prev => ({
       ...prev,
-
-      // new column 
+      // new list (use its id as the property key)
       [id]: {
-        // column id
+        // list id
         id: id,
-        // column title
+        // list title
         title: 'New List',
         // tasks belonged to the list
         taskIds: [],
       }
 
-
-
     }))
-
+    // push the new list at the end of all lists
     setListOrder(prev => ([
       ...prev,
       id
     ]))
+  }
+
+  // delete list
+  const handleDeleteList = listId => {
+
+    const newListOrder = Array.from(listOrder)
+    const filteredLists = newListOrder.filter(list => list !== listId);
+
+    setListOrder(filteredLists)
+      
+    const newLists = {...lists}
+    for(let key in newLists) {
+      if(newLists[key].id === listId) {
+        delete newLists[key]
+      }
+    }
+
+    setLists(newLists)
   }
 
   // change list name
@@ -219,42 +234,68 @@ function App() {
 
   //submit new task
 	const handleSubmitTask = list => {
-		// prevent default action
-		// event.preventDefault();
-
-			// shift new task in all tasks list (before previous task(s))
-			setAllTasks((prevAllTasks) => ({
+			// put new task into allTasks state
+			setAllTasks(prevAllTasks => ({
 				...prevAllTasks,
         [newTask.id]: newTask,
       })
 			);
 
-      setLists(prev => ({
-        ...prev,
-        'all-tasks': {
-          ...lists['all-tasks'],
-          taskIds: [...lists['all-tasks'].taskIds, newTask.id]
-        },
-        [list] : { 
-          ...lists[list],
-          taskIds: [...lists[list].taskIds, newTask.id]
+      // if there is no list created and users choose to create new list as adding new task
+      if(list === "addNewTaskList") {
+        // generate new id for new list
+        const id = uuid();
+        setLists(prev => ({
+          ...prev,
+          'all-tasks': {
+            ...lists['all-tasks'],
+            taskIds: [...lists['all-tasks'].taskIds, newTask.id]
+          },
+        // new column 
+        [id]: {
+          // column id
+          id: id,
+          // column title
+          title: 'New List',
+          // add new task to the new list
+          taskIds: [newTask.id],
         }
-      }))
+        }))
 
-			// empty the value of newTask
+        setListOrder(prev => ([
+          ...prev,
+          id
+        ]))
+
+      } else {
+        setLists(prev => ({
+          ...prev,
+          'all-tasks': {
+            ...lists['all-tasks'],
+            // push the task to all tasks
+            taskIds: [...lists['all-tasks'].taskIds, newTask.id]
+          },
+          // update the list according to the argument passed in (corresponding list id)
+          [list] : { 
+            ...lists[list],
+            // push the task to the list
+            taskIds: [...lists[list].taskIds, newTask.id]
+          }
+        }))
+      }
+        
+      // empty the value of newTask
 			setNewTask({});
 	}
   
-
   // remove tasks marked as done
-  const handleRemoveDone = e => {
-		e.preventDefault();
-
-
-    const newArr = lists['all-tasks'].taskIds.slice();
-
+  const handleRemoveDone = () => {
+    // first, delete the task id data in the corresponding list
+    // use for...loop to locate the target task in corresponding lists
     for(let key in lists) {
+      // filter the target task (marked as done) away
       let newIds = lists[key].taskIds.filter(task => allTasks[task].done === false);
+      //update the list
       setLists(prev => ({
         ...prev,
         [key]: {
@@ -262,23 +303,23 @@ function App() {
           taskIds: newIds
         }
       }))
-      
     }
-
-    newArr.forEach(task => {
-      if (allTasks[task].done) {
-        const newAllTasks = {...allTasks};
-        delete newAllTasks[task]
-        setAllTasks(newAllTasks)
+    // duplicate an allTasks object
+    const newAllTasks = {...allTasks};
+    // loop through each key(task) of newAllTasks
+    for(let key in newAllTasks) {
+      // check if any key (task)'s done status is true
+      if (newAllTasks[key].done === true) {
+        // delete that key (task)
+        delete newAllTasks[key]
       }
-
-
-    })
-
+    }
+    // update allTasks with newAllTasks    
+    setAllTasks(newAllTasks);
   }
   // remove task individually
   const handleRemoveTask = taskId => {
-    const newArr = lists['all-tasks'].taskIds.slice();
+    // const newArr = lists['all-tasks'].taskIds.slice();
 
       for(let key in lists) {
         let newIds = lists[key].taskIds.filter(task => allTasks[task].id !== taskId);
@@ -291,24 +332,33 @@ function App() {
         }))
         
       }
+      
+      const newAllTasks = {...allTasks}
+      for(let key in newAllTasks) {
+        if(newAllTasks[key].id === taskId) {
+          delete newAllTasks[key]
+        }
+      }
 
-        newArr.forEach(task => {
-          if (allTasks[task].id === taskId) {
-            const newAllTasks = {...allTasks};
-            delete newAllTasks[task]
-            setAllTasks(newAllTasks)
-          }
+      setAllTasks(newAllTasks)
+
+        // newArr.forEach(task => {
+        //   if (allTasks[task].id === taskId) {
+        //     const newAllTasks = {...allTasks};
+        //     delete newAllTasks[task]
+        //     setAllTasks(newAllTasks)
+        //   }
         
-        })
+        // })
         
 
 
   }
   // edit task detail
-  const handleEditTask = (taskId, content) => {
+  const handleEditTask = (taskId, updatedContent) => {
     setAllTasks(prevAllTasks => ({
       ...prevAllTasks,
-      [taskId]: content
+      [taskId]: updatedContent
     }))
   }
   // toggle task done status
@@ -322,19 +372,12 @@ function App() {
       }))
   }
 
+  // toggle task form
+  const handleToggleForm = () => {
+      $("#taskForm").toggleClass("active");
+      $("#addBtn").toggleClass("active");  
+  }
 
-
-
-
-
-
-  // Toggle add task form
-  useEffect(() => {
-      $('#addTask').on("click", function() {
-          $("#taskForm").toggleClass("active");
-          $("#addBtn").toggleClass("active");  
-  })
-  }, [])
   
 //   // fetch all tasks data
 //   useEffect(() => {
@@ -374,7 +417,7 @@ function App() {
 
   return (
     <div className="App">
-      <TaskFormToggle />
+      <TaskFormToggle handleToggleForm={handleToggleForm}/>
       <MobileNav />
 
       <div className='container-fluid' style={{padding: 0, overflow: 'hidden'}}>
@@ -387,6 +430,7 @@ function App() {
 
               <Overview
                 lists={lists}
+                listOrder={listOrder}
                 handleRemoveDone={handleRemoveDone}
                 onDragEnd={onDragEnd}
                 allTasks={allTasks}
@@ -400,8 +444,9 @@ function App() {
                 listOrder={listOrder}
                 onDragEnd={onDragEnd}
                 allTasks={allTasks}
-                handleAddColumn={handleAddColumn}
+                handleAddList={handleAddList}
                 handleEditListTitle={handleEditListTitle}
+                handleDeleteList={handleDeleteList}
               />
 
 

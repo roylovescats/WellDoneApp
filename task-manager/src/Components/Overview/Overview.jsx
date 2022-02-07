@@ -12,6 +12,7 @@ import EmptyList from './EmptyList';
 //import Searcg bar component
 import SearchBar from './SearchBar';
 import ProgressBar from './ProgressBar';
+import Progresses from './Progresses';
 
 const Container = styled.div`
     height: 100vh; 
@@ -51,7 +52,7 @@ const OverviewText = styled.div`
     font-size: clamp(25px, 1.5vw, 30px);
 `
 
-function Overview({lists, onDragEnd, allTasks, handleRemoveDone, handleEditTask, handleToggleDone, handleRemoveTask }) {
+function Overview({lists, onDragEnd, allTasks, handleRemoveDone, handleEditTask, handleToggleDone, handleRemoveTask, listOrder }) {
 
     
     return (
@@ -139,7 +140,7 @@ function Overview({lists, onDragEnd, allTasks, handleRemoveDone, handleEditTask,
                                     {Object.keys(allTasks).length === 0 ?
                                         <EmptyProgress />   
                                         :
-                                        <ProgressBar />
+                                        <Progresses allTasks={allTasks} listOrder={listOrder} lists={lists}/>
                                     }
 
                                         {/* list progress bar component */}

@@ -1,8 +1,13 @@
 import React from 'react';
 
-function TaskFormToggle() {
+function TaskFormToggle({handleToggleForm}) {
     return (
-        <a href="#" id="addTask" className='d-none d-lg-flex'>    
+        <a 
+            href="#"
+            id="addTask"
+            className='d-none d-lg-flex'
+            onClick={handleToggleForm}
+        >    
             <svg id="addBtn" width="26" height="26" viewBox="0 0 26 26" fill="none"
                 xmlns="http://www.w3.org/2000/svg">
                 <path fillRule="evenodd" clipRule="evenodd"

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 
+import $ from 'jquery'
 import styled from 'styled-components';
 
 
@@ -137,7 +138,8 @@ function Task({ task, index, handleEditTask, handleToggleDone, handleRemoveTask 
 
 
                 {/* edit task button */}
-                {edit ?                
+                {edit ?           
+                    // savebutton     
                     <button
                     className="col-1  d-flex align-items-center justify-content-center"
                     onClick={handleSubmit}
@@ -149,9 +151,15 @@ function Task({ task, index, handleEditTask, handleToggleDone, handleRemoveTask 
 
                     </button>
                     :
+                    //edit button
                     <button
                     className="col-1  d-flex align-items-center justify-content-center"
-                    onClick={() => setEdit(!edit)}
+                    onClick={() => {
+                        setEdit(!edit)
+                        $(`#all${task.id}`).addClass("show");
+                    }
+                    
+                    }
                     >
                         {/* <button className="col-1 d-flex align-items-center justify-content-center" > */}
                         <svg width="16" height="16" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -241,7 +249,6 @@ function Task({ task, index, handleEditTask, handleToggleDone, handleRemoveTask 
                         placeholder='location'
                         name="location"
                         value={updateTask.location || ""}
-        
                         onChange={handleChange}
                     />
                     </div>
@@ -252,21 +259,10 @@ function Task({ task, index, handleEditTask, handleToggleDone, handleRemoveTask 
                     // position: 'relative'
                 }}
                 >
-
-            
-                            
-                
-
             
                         <p className="text-secondary" style={{ fontSize: 18 }}>
                             {details.join(' ‧ ')}
                         </p>
-
-        
-
-
-
-
 
                 </div> 
 
@@ -278,8 +274,32 @@ function Task({ task, index, handleEditTask, handleToggleDone, handleRemoveTask 
             <div id={"all" + task.id} className="accordion-collapse collapse"
                 aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
                 <div className="accordion-body row">
-                    <div className="col offset-1 pt-3 h-auto">
-                        <p style={{ fontSize: 20 }}>{task.notes}</p>
+                    <div 
+                        className="col offset-1 pt-3 h-auto"
+                        style={{position: 'relative', minHeight: 27}}    
+                    >
+
+
+
+                        {edit ?
+                        <input 
+                            type="text"
+                            name="notes"
+                            value={updateTask.notes}
+                            placeholder='Notes...'
+                            onChange={handleChange}
+                            style={{fontSize: 18, lineHeight:0, background: 'rgb(240, 240, 240)', border: 0, height: 27, padding: 0, position: 'absolute', top: 2}}
+                        
+                        />
+                            :    
+                        <p style={{ fontSize: 18, position: 'absolute', bottom: 10, lineHeight: 0 }}>{task.notes}</p>
+                        }
+
+
+
+
+
+
                     </div>
                 </div>
             </div>

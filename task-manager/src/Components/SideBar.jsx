@@ -1,31 +1,20 @@
-import React, { useEffect } from 'react';
-
 import $ from 'jquery';
-
-
 
 function SideBar() {
 
-    useEffect(() => {
-        $(document).ready(function() {
-            $('#collapse').on("click", function() {
-    
-                $("#sidebar").toggleClass("active");
-                $(".arrow-btn").toggleClass("active");
-                $('nav p').toggleClass("hidden");
-    
-    
-            })
-    
-        })
-    }, [])
+    const handleClick = () => {
+        $("#sidebar").toggleClass("active");
+        $(".arrow-btn").toggleClass("active");
+        $('nav p').toggleClass("hidden");
+    }
+
 
     return (
         <div className='col-auto d-none d-lg-block'>
             <nav id="sidebar">
                 {/* collapse/ expand toggle */}
                 <div className="py-3 d-block border-bottom">
-                    <button type="button" id="collapse" className="h-100 w-100 btn collapse-btn">
+                    <button id="collapse" className="h-100 w-100 btn collapse-btn" onClick={handleClick}>
                             {/* app name */}
                             {/* <p>WELL, DONE!</p> */}
                             {/* collapse arrow */}
@@ -49,7 +38,7 @@ function SideBar() {
                                 <path d="M12 20V30H4V12L16 2L28 12V30H20V20H12Z" stroke="black" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                             </svg>
                                         
-                            <p className="ms-4 ps-3 my-auto">Home</p>
+                            <p className="ms-4 ps-3 my-auto">Overview</p>
                         </a>
                     </li>
 

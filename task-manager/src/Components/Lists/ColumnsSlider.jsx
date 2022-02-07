@@ -4,6 +4,9 @@ import TaskColumn from './TaskColumn';
 import styled from 'styled-components';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
+import {v4 as uuid} from "uuid"; 
+
+
 
 const Container = styled.div`
     display: inline-flex;
@@ -12,12 +15,13 @@ const Container = styled.div`
 `
 
 
-function ColumnsSlider({ lists, listOrder, onDragEnd, allTasks, handleAddColumn, handleEditListTitle }) {
+function ColumnsSlider({ lists, listOrder, onDragEnd, allTasks, handleAddList, handleEditListTitle, handleDeleteList }) {
 
 
     const handleClick = e => {
         e.preventDefault();
-        handleAddColumn()
+        const id = uuid()
+        handleAddList(id)
     }
 
 
@@ -44,7 +48,14 @@ function ColumnsSlider({ lists, listOrder, onDragEnd, allTasks, handleAddColumn,
                 // isDraggingOver={snapshot.isDraggingOver}    
             >
                 {listOrder.map((columnId, index) => 
-                    <TaskColumn key={columnId} list={lists[columnId]} index={index} allTasks={allTasks} handleEditListTitle ={handleEditListTitle} />
+                    <TaskColumn 
+                        key={columnId} 
+                        list={lists[columnId]} 
+                        index={index} 
+                        allTasks={allTasks} 
+                        handleEditListTitle={handleEditListTitle} 
+                        handleDeleteList={handleDeleteList}
+                    />
                 )}
                 {provided.placeholder}
             </Container>
