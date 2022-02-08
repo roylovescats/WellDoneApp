@@ -4,6 +4,9 @@ import TaskColumn from './TaskColumn';
 import styled from 'styled-components';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
+import {v4 as uuid} from "uuid"; 
+
+
 
 const Container = styled.div`
     display: inline-flex;
@@ -12,12 +15,13 @@ const Container = styled.div`
 `
 
 
-function ColumnsSlider({ columns, columnOrder, onDragEnd, allTasks, handleAddColumn, handleEditListTitle }) {
+function ColumnsSlider({ lists, listOrder, onDragEnd, allTasks, handleAddList, handleEditListTitle, handleDeleteList }) {
 
 
     const handleClick = e => {
         e.preventDefault();
-        handleAddColumn()
+        const id = uuid()
+        handleAddList(id)
     }
 
 
@@ -33,8 +37,8 @@ function ColumnsSlider({ columns, columnOrder, onDragEnd, allTasks, handleAddCol
             onDragEnd={onDragEnd}
         >
         <Droppable
-            type='columns'
-            droppableId="all-columns"
+            type='lists'
+            droppableId="all-lists"
             direction="horizontal"
         >
         {(provided, snapshot) => (
@@ -43,8 +47,15 @@ function ColumnsSlider({ columns, columnOrder, onDragEnd, allTasks, handleAddCol
                 ref={provided.innerRef}
                 // isDraggingOver={snapshot.isDraggingOver}    
             >
-                {columnOrder.map((columnId, index) => 
-                    <TaskColumn key={columnId} column={columns[columnId]} index={index} allTasks={allTasks} handleEditListTitle ={handleEditListTitle} />
+                {listOrder.map((columnId, index) => 
+                    <TaskColumn 
+                        key={columnId} 
+                        list={lists[columnId]} 
+                        index={index} 
+                        allTasks={allTasks} 
+                        handleEditListTitle={handleEditListTitle} 
+                        handleDeleteList={handleDeleteList}
+                    />
                 )}
                 {provided.placeholder}
             </Container>
@@ -60,7 +71,7 @@ function ColumnsSlider({ columns, columnOrder, onDragEnd, allTasks, handleAddCol
                 <div    className="w-100" 
                         style={{background: "rgba(43, 43, 43, 0.377)",
                                 borderRadius: 2,
-                                flexDirection: "column",
+                                flexDirection: "list",
                                 display: "flex",
                                 borderRadius: 3,
                                 marginTop: 35.59
