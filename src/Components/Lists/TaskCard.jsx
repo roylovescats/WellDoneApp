@@ -3,7 +3,7 @@ import { Draggable } from 'react-beautiful-dnd';
 
 import styled from 'styled-components';
 
-function TaskCard({ task, index }) {
+function TaskCard({ task, index, listTitle }) {
     const details = [];
 
     if (task.date) {
@@ -53,9 +53,11 @@ function TaskCard({ task, index }) {
                         {/* Event title */}
                         <div className="col-9">
                             <p style={{fontSize: 16}}
-                                    type="button"
+                                type="button"
                                 data-bs-toggle="collapse" data-bs-target="#collapseTwo"
-                                aria-expanded="false" aria-controls="collapseTwo">
+                                aria-expanded="false" aria-controls="collapseTwo"
+                                data-testid={listTitle}
+                            >
                                 {task.title}
                             </p>
                         </div>

@@ -14,8 +14,12 @@
   background-image: url('./asset/JohnLoren2.jpg');
 }
 
-
 /* Universal style */
+
+.rbc-toolbar button {
+  border: none !important;
+  border-radius: 0 !important;
+}
 
 ::-webkit-scrollbar { /* hide scollbar */
   display: none;
@@ -89,7 +93,6 @@ main {
   background: #ffffff;
   display: flex; 
   align-items: center;
-  z-index: 999;
   box-shadow: 0px 1px 1.5px rgba(0, 0, 0, 0.1); 
   justify-content: center;
 }
@@ -102,13 +105,90 @@ main {
   transform: rotate(45deg); 
 }
 
+#addBtnMobile { /* add task button */
+  transition: 0.3s
+}
+
+#addBtnMobile.active { /* rotate add task button */
+  transform: rotate(45deg); 
+}
+
+.form-backdrop {
+  display: none;
+  opacity: 0;
+  transition: 1s
+}
+
+/* calendar styling */
+.rbc-today{
+
+  background: #efffe7 !important;
+  /* background: #70bbae !important; */
+}
+
+.rbc-event, .rbc-day-slot .rbc-background-event{
+  background: rgb(153, 201, 130) !important;
+  box-shadow: 0px 1px 1.5px rgba(0, 0, 0, 0.1) !important; 
+
+  /* background: linear-gradient(270deg, #A5D9B7 -12.42%, #73BD8C 31.44%); */
+}
+
+.rbc-toolbar button:active, .rbc-toolbar button.rbc-active {
+    background-color: #e6e6e6 !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+
+}
+
+
+.rbc-agenda-view table.rbc-agenda-table {
+  border: none !important;
+}
+
+.rbc-agenda-view table.rbc-agenda-table tbody > tr > td + td {
+  border: none !important;
+}
+
+.rbc-agenda-date-cell {
+  border-right: 1px solid #ddd;
+}
+/* .rbc-agenda-view table.rbc-agenda-table thead > tr > th {
+  border:
+} */
+
+.rbc-header {
+  border-left: 0px !important;
+}
+
+.rbc-event-content{
+  color: rgb(255, 255, 255);
+}
+
+@media only screen and (max-width: 991px) {
+  .form-backdrop.active {
+    display: block;
+    opacity: 0.1;
+  }
+
+  #sidebar {
+    position: fixed;
+    height: 100vh;
+    z-index: 999;
+
+  }
+    #sidebar.collapsed {
+    width: 0px !important;
+    overflow: hidden;
+  }
+}
+
 /* sidebar style */
 #sidebar { /* sidebar */
   transition: 1s;
   width: 290px;
   height: 100vh;
   color: rgb(245, 245, 245);
-  background: white;
+  background: white ;
   /* background:#c7c7c7; */
   /* background:#617362; */
   filter: drop-shadow(0.5px 0px 1px rgba(0, 0, 0, 0.25));
@@ -120,8 +200,16 @@ main {
   }
 }
 
-#sidebar.active { /* sidebar show */
-  width: 65px !important;
+/* .switch::before{
+  content: '';
+  position: absolute;
+  height:15px;
+  width:15px;
+  border-radius: 50%;
+} */
+
+#sidebar.collapsed { /* sidebar show */
+  width: 65px;
 }
 
 .arrow-btn { /* arrow button */
@@ -295,15 +383,15 @@ nav p.hidden {
 
 .slider {
   /* position: absolute; */
-  
+  position: relative;
   overflow: hidden;
 }
 
 .slider-inner {
-  /* position: absolute; */
-  /* top: 0;
-  left: 0; */
-  /* display: grid; */
+  position: absolute;
+  top: 0;
+  left: 0; 
+  /* display: grid;
   /* grid-template-columns: repeat(7, 1fr); */
   /* pointer-events: none; */
   /* flex-direction: row; */
@@ -341,10 +429,16 @@ nav p.hidden {
 }
 
 @media only screen and (max-width: 1400px) {
-  #taskForm.active {
+  #taskForm {
+    /* display: none; */
     position: fixed;
     right: 0;
+    margin-right: calc(-200px - 10vw);
     height: 100vh;
+
+  }
+
+  #taskForm.active {
     z-index: 999;
   }
 }
@@ -358,6 +452,10 @@ nav p.hidden {
 form input, select {
   border: 0;
   width:100%;
+}
+
+input:focus {
+  outline: none;
 }
 
 input[type=submit] {
@@ -375,4 +473,51 @@ textarea {
   max-height: 100px;
   width: 100%;
   border: 0;
+}
+
+p.dark, h3.dark, h4.dark, input.dark, label.dark, .iZPNWi.dark, select.dark, .removeDone.dark {
+  color: #ccc;
+}
+
+.removeDone.dark:hover{
+  color:white;
+  transition:0.5s;
+}
+
+.nav-icon1.dark path{
+  stroke: #CCC !important;
+}
+
+.nav-icon2.dark path{
+  fill: #CCC !important;
+}
+
+ #Home.dark,  #Lists.dark, .Gohid.dark {
+  background: #18191a;
+}
+
+#sidebar.dark, #taskForm.dark, .bAqmpU.dark, .pinned-list.dark, #search.dark, .searchBar.dark, textarea.dark, select.dark{
+  background: #242526 !important;
+}
+
+.task-list.dark{
+ background: linear-gradient(181.98deg, rgba(36, 37, 37, 0.9) 18.3%, rgba(246, 247, 248, 0.43) 98.38%);
+}
+
+#calendar {
+  box-shadow: 0px 1px 1.5px rgba(0, 0, 0, 0.1); 
+}
+
+/* .calendar {
+  
+} */
+
+@media only screen and (max-width: 1400px) {
+  .overview-num {
+    font-size: 3vw !important;
+  }
+
+  .overview-text {
+    font-size: 1.3vw !important;
+  }
 }

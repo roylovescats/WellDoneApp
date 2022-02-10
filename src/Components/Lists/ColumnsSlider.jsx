@@ -63,8 +63,10 @@ function ColumnsSlider({ lists, listOrder, onDragEnd, allTasks, handleAddList, h
         </Droppable>
 
 
-            {/* add list button */}
-            <div className="pt-5 me-3" style={{width: 315, display: "inline-block"}}>
+            <div
+                className="pt-5 me-3" 
+                style={{width: 315, display: "inline-block"}}
+            >
                 {/* Task list Title */}
 
                 {/* button body */}
@@ -79,8 +81,8 @@ function ColumnsSlider({ lists, listOrder, onDragEnd, allTasks, handleAddList, h
                 >
 
                     {/* list Draggable handle */}
-                    <div style={{width: "100%", height: 48, position: "relative"}}>
-                        <button onClick={handleClick} className="w-100 btn bg-0 h-100" style={{color: "white", position: "absolute", top: 0}}>+ NEW LIST</button>
+                    <div style={{width: "100%", height: 48, position: "relative"}}>                
+                        <button onClick={handleClick} className="w-100 btn bg-0 h-100" style={{color: "white", position: "absolute", top: 0}} data-testid="add-list">+ NEW LIST</button>
                     </div>
 
                  
