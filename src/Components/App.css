@@ -9,11 +9,6 @@
   scroll-behavior: smooth;
 }
 
-.App.theme {
-  /* background-image: url('./asset/photo-1526109753379-32666ca7fe2f.jpg'); */
-  background-image: url('./asset/JohnLoren2.jpg');
-}
-
 /* Universal style */
 
 .rbc-toolbar button {
